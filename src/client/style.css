@@ -1,0 +1,198 @@
+body .section{
+  padding: 2% 2.5%;
+}
+
+h1 {
+  color: green;
+  text-align: center;
+}
+
+#media-320, #media-768, #media-1024, #media-1025 {
+    display: none;
+    overflow: hidden;
+}
+/*하단 메뉴바 - 461픽셀 이하가 될 때 모양변조*/
+.lower-menu-bar{
+  position:fixed;
+  display: flex;
+  left:0px;
+  bottom:0px;
+  height:65px;
+  width:100%;
+  color: #999;
+  border-top: 1px solid rgba(1, 1, 1, .1);
+  font-size: .9rem;
+}
+.lower-menu-bar div{
+  flex-grow: 1;
+  flex-basis: 0;
+  text-align: center;
+  position: relative;
+}
+.lower-menu-bar div div{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+}
+.lower-menu-bar div div i{
+  display: block;
+}
+/*지도 좌측상단 주소표시*/
+#map-container{
+  position: relative;
+}
+#map{
+  width:100%;
+  height:400px;
+}
+.title {
+  font-weight:bold;
+  display:block;
+}
+.hAddr {
+  position:absolute;
+  left:1%;
+  top:10px;
+  border-radius: 2px;
+  background:#fff;
+  background:rgba(255,255,255,0.8);
+  z-index:1;
+  padding:5px;
+}
+#centerAddr {
+  display:block;
+  margin-top:2px;
+  font-weight: normal;
+}
+/*내주변 -- 맛집*/
+.list-filter-tv-show {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+.list-filter-tv-show div{
+  display: inline-block;
+  margin-right: 1rem;
+}
+.list-filter-tv-show .select-wrapper{
+  width: 40%;
+}
+/*현재 위치 상태바*/
+.now-location-address-bar div{
+  margin-bottom: .7rem;
+  display: inline-block;
+  font-size: 1rem;
+}
+.now-location-address-bar div:nth-child(1){
+  font-weight: bold;
+  margin-right: .5rem;
+}
+.now-location-address-bar div:nth-child(2){
+  margin-right: 1rem;
+}
+/*주소 변경 창*/
+.search-screen {
+    position: fixed;
+    overflow-y: none;
+    left: 0px;
+    top: 0px;
+    height:100%;
+    width:100%;
+    background-color: rgba(0, 0, 0, 0.70);
+    z-index: 99;
+}
+.search-screen input {
+    text-align: center;
+    font-size: 2rem;
+    line-height: 3rem;
+    margin-top: 10rem;
+    height: 80px;
+    font-weight: 200;
+    color: white
+}
+.search-screen div{
+  position: relative;
+}
+.search-screen div .btn {
+    margin-top: 14px;
+    margin-right: 20px;
+}
+.search-screen div div.btn{
+  position: absolute;
+  top: 20rem;
+  right:0
+}
+
+
+/*미디어 쿼리 for 반응형 웹*/
+@media all and (max-width: 369px) {
+  /*스마트폰*/
+  #media-320 {
+    display: block;
+  }
+  #map{
+    height:300px;
+  }
+  .lower-menu-bar{
+    height: 60px;
+    font-size: 0.6rem;
+  }
+}
+@media all and (min-width: 370px) and (max-width: 461px) {
+  /*스마트폰*/
+  #media-320 {
+    display: block;
+  }
+  #map{
+    height:330px;
+  }
+  .lower-menu-bar{
+    font-size: 0.8rem;
+  }
+}
+@media all and (min-width: 462px) and (max-width: 768px) {
+  /*스마트폰*/
+  #media-768 {
+    display: block;
+  }
+}
+@media all and (min-width: 769px) and (max-width: 1024px) {
+  /*태블릿*/
+  #media-1024 {
+    display: block;
+    padding: 0 10%;
+  }
+  #map-container {
+    padding: 0 10%;
+  }
+  .hAddr {
+    left: 11%;
+  }
+  .list-filter-tv-show{
+    padding: 0 10%;
+  }
+  .now-location-address-bar{
+    padding: 0 10%;
+  }
+}
+@media all and (min-width: 1025px) {
+  /*pc*/
+  #media-1025 {
+    display: block;
+    padding: 0 12%;
+  }
+  #map-container {
+    margin: 0 12%;
+  }
+  .list-filter-tv-show{
+    padding: 0 12%;
+  }
+  .now-location-address-bar{
+    padding: 0 12%;
+  }
+  .search-screen div div.btn{
+    position: absolute;
+    top: 16rem;
+    right:0
+  }
+}
