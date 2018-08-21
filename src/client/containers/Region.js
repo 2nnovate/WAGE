@@ -31,7 +31,8 @@ class Region extends Component {
             lng:'126.9319833757',
             openingHours: '11:00 - 21:00',
             OffDay: 'mon',
-            tvShow: [{name: '수요미식회', time: '181'}]
+            tvShow: [{name: '수요미식회', time: '181'}],
+            categories: ['한식']
           },
           {
             _id:'02',
@@ -41,9 +42,23 @@ class Region extends Component {
             address: '서울 성북구 성북로26길 8',
             lat: '37.5950541538',
             lng:'126.9948365608',
-            openingHours: '평이 11:30 - 18:00 / 주말 11:30 - 22:00',
+            openingHours: '평일 11:30 - 18:00 / 주말 11:30 - 22:00',
             OffDay: 'mon',
-            tvShow: [{name: '수요미식회', time: '180'}]
+            tvShow: [{name: '수요미식회', time: '180'}],
+            categories: ['카페']
+          },
+          {
+            _id:'03',
+            name: '신성',
+            starRate: 4.1,
+            tell: '02-733-6671',
+            address: '서울 종로구 무교로 42',
+            lat: '37.5696660922',
+            lng:'126.9794936176',
+            openingHours: '11:00 - 22:00',
+            OffDay: 'sun',
+            tvShow: [{name: '수요미식회', time: '181'}],
+            categories: ['일식']
           }
         ]
       }
@@ -161,7 +176,7 @@ class Region extends Component {
        // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
         daum.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
         daum.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
-        daum.maps.event.addListener(marker, 'click', clickListener(this.state.storeLists[i]._id));
+        daum.maps.event.addListener(marker, 'click', clickListener(this.state.storeLists[i]._id).bind(this)); //this 바인딩을 실행하는 단계에서 수행
         // LatLngBounds 객체에 좌표를 추가합니다
         bounds.extend(mapPoint);
       }
@@ -185,8 +200,8 @@ class Region extends Component {
       // 마커를 클릭 이벤트 클로저
       function clickListener(_id) {
           return function() {
-            //**this.props.history doesn't work...
-              console.log('this.props.history.push 로 '+_id+' 주소로 이동해야하는데?')
+            //this.props.history doesn't work... 아마 this 바인딩이 안돼서 그러는 듯 => 실행 할 때 .bind 메소드 실행
+            this.props.history.push('/'+_id);
           };
       }
     }
@@ -275,6 +290,9 @@ class Region extends Component {
       listFilter: willListFilterArr
     })
   }
+  handleTestHistory = (_id) => {
+    this.props.history.push('/'+_id);
+  }
 
   componentWillMount(){
     // 컴포넌트가 렌더링되기 이전에 브라우저의 geolocation으로 주소, 위/경도값변경
@@ -347,6 +365,10 @@ class Region extends Component {
           </select>
           <div>맛집</div>
         </div>
+      )
+      // router-dom 에서의 history 객체 test - 정상작동
+      const testHistoty = (
+        <div onClick={this.handleTestHistory}>test button</div>
       )
         return(
           <div className="section">
