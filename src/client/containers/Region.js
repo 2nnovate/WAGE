@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { LowerMenuBar } from '../components'
+import { LowerMenuBar, StoreList, Header } from '../components'
 
 const propTypes = {
 };
@@ -24,39 +24,42 @@ class Region extends Component {
           {
             _id:'01',
             name: '한씨옥',
+            thumbnail: 'https://search.pstatic.net/common/?autoRotate=true&quality=95&src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxODA4MDdfMTM1%2FMDAxNTMzNjQxMDY5OTQz.bXHhO_B39nznQK3y7UNif9QpL7m3PBcr_GIkPgzLHRgg.rvu_YMAVwYrvwruepfA2CSatBI9no84435Ddp24Yp7Ig.JPEG.zephyr122059%2F20180807_132015.jpg%23800x600&type=m862_636',
             starRate: 4.2,
             tell: '02-305-4892',
             address: '서울 서대문구 연희로25길 92',
             lat: '37.5697708152',
             lng:'126.9319833757',
             openingHours: '11:00 - 21:00',
-            OffDay: 'mon',
+            offDay: 'mon',
             tvShow: [{name: '수요미식회', time: '181'}],
             categories: ['한식']
           },
           {
             _id:'02',
             name: '수연산방',
+            thumbnail: 'https://search.pstatic.net/common/?autoRotate=true&quality=95&src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxNzEwMjJfODkg%2FMDAxNTA4NjYwMDQyNTY3.V93-rJWa3j_p_6Msle6OO5wPMQDjzSBI8nM3zCkfrGQg.5_I8hiRxSguYUEqe97iZxShhuuhfAN7x1slOWSqHyXwg.JPEG.nadiatour%2FDSC02562.JPG&type=m862_636',
             starRate: 4.7,
             tell: '02-764-1736',
             address: '서울 성북구 성북로26길 8',
             lat: '37.5950541538',
             lng:'126.9948365608',
             openingHours: '평일 11:30 - 18:00 / 주말 11:30 - 22:00',
-            OffDay: 'mon',
+            offDay: 'mon',
             tvShow: [{name: '수요미식회', time: '180'}],
             categories: ['카페']
           },
           {
             _id:'03',
             name: '신성',
+            thumbnail: 'https://postfiles.pstatic.net/MjAxODA4MDZfNzUg/MDAxNTMzNTYwMDYzMzE4.aNydDvSzG67nYB_SxizGQ77e2X5nnPFNC_toJ4MlqVUg.2SBLm6vEQfX4Quo222EjkR_vUQuSPHcIsauql_ZiNXQg.JPEG.zephyr122059/20180806_184156.jpg?type=w966',
             starRate: 4.1,
             tell: '02-733-6671',
             address: '서울 종로구 무교로 42',
             lat: '37.5696660922',
             lng:'126.9794936176',
             openingHours: '11:00 - 22:00',
-            OffDay: 'sun',
+            offDay: 'sun',
             tvShow: [{name: '수요미식회', time: '181'}],
             categories: ['일식']
           }
@@ -120,7 +123,7 @@ class Region extends Component {
             var locPosition = new daum.maps.LatLng(this.state.lat===''?'33.450701':this.state.lat, this.state.lng===''?'126.570667':this.state.lng), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
                 message = `<div class="info-window" style="padding:10px;font-size:.9rem;">
                             <div style="text-align:center;">현재 위치입니다</div>
-                            <div style="color:gray;">아니라면 위에서 변경</div>
+                            <div style="color:gray;">아니라면 변경하세요</div>
                           </div>`; // 인포윈도우에 표시될 내용입니다
 
             // 마커와 인포윈도우를 표시합니다
@@ -366,29 +369,35 @@ class Region extends Component {
           <div>맛집</div>
         </div>
       )
-      // router-dom 에서의 history 객체 test - 정상작동
-      const testHistoty = (
-        <div onClick={this.handleTestHistory}>test button</div>
+      const header =(
+        <div className="header media-768 media-1024">
+          <h1>뭐 할끼니?</h1>
+        </div>
       )
         return(
           <div className="section">
             {this.state.searchAddrState? changeAdressView:undefined}
+            <Header />
             {categoriesSelect}
             {nowLocationBar}
             {map}
-            <div id="media-320">
+            <div className="media-320">
               media-320 이하(스마트폰)
+              <StoreList data={this.state.storeLists}/>
               <LowerMenuBar />
             </div>
-            <div id="media-768">
-              media-321 이상 media-768 이하(스마트폰)
+            <div className="media-768">
+              media-321 이상 media-767 이하(스마트폰)
+              <StoreList data={this.state.storeLists}/>
               <LowerMenuBar />
             </div>
-            <div id="media-1024">
-              media-769 이상 media-1024 이하(태블릿)
+            <div className="media-1024">
+              media-768 이상 media-1024 이하(태블릿)
+              <StoreList data={this.state.storeLists}/>
             </div>
-            <div id="media-1025">
+            <div className="media-1025">
               media-1025 이상(pc)
+              <StoreList data={this.state.storeLists}/>
             </div>
           </div>
         );

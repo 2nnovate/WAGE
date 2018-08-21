@@ -1,13 +1,15 @@
 body .section{
   padding: 2% 2.5%;
+  padding-bottom: 65px;
+  color: rgba(1, 1, 1, .9);
 }
 
 h1 {
-  color: green;
   text-align: center;
+  font-weight: bold;
 }
 
-#media-320, #media-768, #media-1024, #media-1025 {
+.media-320, .media-768, .media-1024, .media-1025 {
     display: none;
     overflow: hidden;
 }
@@ -22,6 +24,8 @@ h1 {
   color: #999;
   border-top: 1px solid rgba(1, 1, 1, .1);
   font-size: .9rem;
+  background-color: white;
+  z-index: 99;
 }
 .lower-menu-bar div{
   flex-grow: 1;
@@ -122,13 +126,54 @@ h1 {
   top: 20rem;
   right:0
 }
+/*가게 카드영역*/
+.store-card{
+  position: relative;
+  padding: 1rem;
+  border-radius: .5rem;
+  margin-bottom: 1.4rem;
+  -moz-box-shadow: 1px 2px 3px 3px rgba(1, 1, 1, .1);
+  -webkit-box-shadow: 1px 2px 3px 3px rgba(1, 1, 1, .1);
+  box-shadow: 1px 2px 3px 3px rgba(1, 1, 1, .1);
+  color: rgba(1, 1, 1, .6);
+  font-size: .9rem;
+}
+.store-card .store-card-title{
+  color: rgba(1, 1, 1, .9);
+  font-weight: bold;
+}
+.store-card>div{
+  display: inline-block;
+}
+.store-card>div img{
+  position: absolute;
+  top:50%;
+  transform: translateY(-50%);
+  width: 8rem;
+  height: 8rem;
+  border-radius: .5rem;
+  object-fit: cover;
+  margin-right: 1rem;
+  display: inline;
+}
+.store-card>div:nth-child(2){
+  margin-left: 9rem;
+}
+/*헤더 (태블릿, pc에만 적용)*/
+.header .nav-extended{
+  padding-top: 1rem;
+  background-color: #26a69a;
+}
 
 
 /*미디어 쿼리 for 반응형 웹*/
 @media all and (max-width: 369px) {
   /*스마트폰*/
-  #media-320 {
+  .media-320 {
     display: block;
+  }
+  body .section{
+    padding-bottom: 60px;
   }
   #map{
     height:300px;
@@ -137,10 +182,15 @@ h1 {
     height: 60px;
     font-size: 0.6rem;
   }
+  .store-card{
+    width:99%;
+    margin: auto;
+    margin-bottom: 1.4rem;
+  }
 }
 @media all and (min-width: 370px) and (max-width: 461px) {
   /*스마트폰*/
-  #media-320 {
+  .media-320 {
     display: block;
   }
   #map{
@@ -149,18 +199,36 @@ h1 {
   .lower-menu-bar{
     font-size: 0.8rem;
   }
-}
-@media all and (min-width: 462px) and (max-width: 768px) {
-  /*스마트폰*/
-  #media-768 {
-    display: block;
+  .store-card{
+    width:99%;
+    margin: auto;
+    margin-bottom: 1.4rem;
   }
 }
-@media all and (min-width: 769px) and (max-width: 1024px) {
+@media all and (min-width: 462px) and (max-width: 767px) {
+  /*스마트폰*/
+  .media-768 {
+    display: block;
+  }
+  .store-card{
+    width:99%;
+    margin: auto;
+    margin-bottom: 1.4rem;
+  }
+}
+@media all and (min-width: 768px) and (max-width: 1024px) {
   /*태블릿*/
-  #media-1024 {
+  .media-1024 {
     display: block;
     padding: 0 10%;
+  }
+  body .section{
+    padding-bottom: 0;
+    padding-top: 0;
+  }
+  .header{
+    padding: 0 10%;
+    margin-bottom: 1rem;
   }
   #map-container {
     padding: 0 10%;
@@ -177,9 +245,20 @@ h1 {
 }
 @media all and (min-width: 1025px) {
   /*pc*/
-  #media-1025 {
+  .media-1025 {
     display: block;
     padding: 0 12%;
+  }
+  body .section{
+    padding-bottom: 0;
+    padding-top: 0;
+  }
+  .header{
+    padding: 0 12%;
+    margin-bottom: 1rem;
+  }
+  .header .nav-extended .brand-logo{
+    padding-left: 24px;
   }
   #map-container {
     margin: 0 12%;
