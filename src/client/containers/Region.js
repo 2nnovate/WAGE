@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { LowerMenuBar, StoreList, Header } from '../components'
+import { LowerMenuBar, StoreList, Header } from '../components';
 
 const propTypes = {
 };
@@ -187,7 +187,7 @@ class Region extends Component {
       // setTimeout 안하고 바로 setBounds 하면 지도 중심이 현재위치로 표현됨
       setTimeout(()=>{
         map.setBounds(bounds);
-      }, 100);
+      }, 200);
       // 인포윈도우를 표시하는 클로저를 만드는 함수입니다
       function makeOverListener(map, marker, infowindow) {
           return function() {

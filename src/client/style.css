@@ -243,6 +243,12 @@ h1 {
     padding: 0 10%;
   }
 }
+@media all and (min-width: 993px) and (max-width: 1024px) {
+  /*헤더 태블릿 적용안되는 부분*/
+  .header .nav-extended .brand-logo{
+    padding-left: 24px;
+  }
+}
 @media all and (min-width: 1025px) {
   /*pc*/
   .media-1025 {

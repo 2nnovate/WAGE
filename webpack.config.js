@@ -28,10 +28,12 @@ module.exports = {
   },
   devServer: {
     port: 3000,
-    open: true,
+    open: true, //dev 서버 실행시 자동 브라우저에서 오픈
     proxy: {
       "/api": "http://localhost:8080"
-    }
+    },
+    historyApiFallback: true, //리액트라우터 돔을 위해 필요한 설정
+    publicPath: "/"
   },
   plugins: [
     new CleanWebpackPlugin([outputDirectory]),
