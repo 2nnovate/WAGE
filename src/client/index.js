@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { Region, Login, Register } from './containers'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { App, Region, Login, Register, MyPage } from './containers'
 import './style.css';
 
 import { Provider } from 'react-redux';
@@ -15,9 +15,14 @@ ReactDOM.render(
   <Provider store={store}>
     <Router>
       <div>
+        <Route path='/' component={App}/>
         <Route exact path='/' component={Region}/>
         <Route path='/login' component={Login}/>
         <Route path='/register' component={Register}/>
+        <Switch>
+          <Route path='/mypage/:user_id' component={MyPage}/>
+          <Route path='/mypage' component={MyPage}/>
+        </Switch>
       </div>
     </Router>
   </Provider>

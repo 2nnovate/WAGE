@@ -119,148 +119,31 @@ router.post('/signin', (req, res) => {
 
     });
 });
-//
-// /*
-//     GET CURRENT USER INFO GET /api/account/getInfo
-//     ERROR CODES:
-//         1: THERE IS NO LOGIN DATA
-// */
-// router.get('/getinfo', (req, res) => {
-//     if(typeof req.session.loginInfo === "undefined") {
-//         return res.status(401).json({
-//             error: "THERE IS NO LOGIN DATA",
-//             code: 1
-//         });
-//     }
-//
-//     res.json({ info: req.session.loginInfo });
-// });
-//
-// /*
-//     LOGOUT: POST /api/account/logout
-// */
-// router.post('/logout', (req, res) => {
-//     // req.session.destroy() 메소드로 세션을 파괴
-//     req.session.destroy(err => { if(err) throw err; });
-//     return res.json({ sucess: true });
-// });
-//
-// /* 지역변경 */
-// router.put('/editregion/:id', (req, res) => {
-//   let willRegion = req.body.region;
-//   console.log(willRegion);
-//   //로그인 여부 확인
-//   if(typeof req.session.loginInfo === 'undefined') {
-//       return res.status(403).json({
-//           error: "NOT LOGGED IN",
-//           code: 1
-//       });
-//   }
-//   //현재 가능한 지역은 수택동, 토평동, 인창동 셋 뿐임
-//   if(willRegion!=="수택동" && willRegion!=="토평동" && willRegion!=="인창동"){
-//     return res.status(400).json({
-//         error: "INVALID REGION",
-//         code: 2
-//     });
-//   }
-//   //_id 값이 mongodb 형식인지 확인
-//   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
-//       return res.status(400).json({
-//           error: "INVALID ID",
-//           code: 3
-//       });
-//   }
-//
-//   Account.findById(req.params.id, (err, account) => {
-//     if(err) throw err;
-//     // _id는 형식에 맞지만 해당 데이터가 존재하지 않는 경우
-//     if(!account) {
-//         return res.status(404).json({
-//             error: "NO RESOURCE",
-//             code: 4
-//         });
-//     }
-//     account.region = willRegion;
-//
-//     account.save((err, account) => {
-//         if(err) throw err;
-//         return res.json({
-//             success: true,
-//             account
-//         });
-//     });
-//   })
-// });
-// /*
-//   주문하기
-//   body sample:
-//   {
-//     storeId: "sample",
-//     storeCategories: "sample",
-//     storeName: "sample",
-//     menuPrice: 14000,
-//     menuName: "sample",
-//     selectedOptions: "sample",
-//     optionPrice: 3000,
-//     payPrice: 17000,
-//   }
-// */
-// router.post('/order/:id', (req, res) => {
-//   let userId = req.params.id;
-//
-//   if(typeof req.session.loginInfo === 'undefined') {
-//       return res.status(403).json({
-//           error: "NOT LOGGED IN",
-//           code: 1
-//       });
-//   }
-//
-//   if(!mongoose.Types.ObjectId.isValid(userId)) {
-//       return res.status(400).json({
-//           error: "INVALID ID",
-//           code: 2
-//       });
-//   }
-//
-//   Account.findById(userId, (err, account) => {
-//     if(err) throw err;
-//     // _id는 형식에 맞지만 해당 데이터가 존재하지 않는 경우
-//     if(!account) {
-//         return res.status(404).json({
-//             error: "NO RESOURCE",
-//             code: 3
-//         });
-//     }
-//     account.order.push({
-//       storeId: req.body.storeId,
-//       storeImage: req.body.storeImage,
-//       storeCategories: req.body.storeCategories,
-//       storeName: req.body.storeName,
-//       menuPrice: req.body.menuPrice,
-//       menuName: req.body.menuName,
-//       selectedOptions: req.body.selectedOptions,
-//       optionPrice: req.body.optionPrice,
-//       payPrice: req.body.payPrice,
-//       date: Date.now()
-//     });
-//
-//     account.save((err, account) => {
-//         if(err) throw err;
-//         return res.json({
-//             success: true,
-//             account
-//         });
-//     });
-//   })
-// })
-//
-// router.get('/check/:id', (req, res) => {
-//   let userId = req.params.id
-//   Account.findById(userId, (err, account) => {
-//     return res.json({
-//         account
-//     });
-//   })
-// })
+
+/*
+    GET CURRENT USER INFO GET /api/account/getInfo
+    ERROR CODES:
+        1: THERE IS NO LOGIN DATA
+*/
+router.get('/getinfo', (req, res) => {
+    if(typeof req.session.loginInfo === "undefined") {
+        return res.status(401).json({
+            error: "THERE IS NO LOGIN DATA",
+            code: 1
+        });
+    }
+
+    res.json({ info: req.session.loginInfo });
+});
+
+/*
+    LOGOUT: POST /api/account/logout
+*/
+router.post('/logout', (req, res) => {
+    // req.session.destroy() 메소드로 세션을 파괴
+    req.session.destroy(err => { if(err) throw err; });
+    return res.json({ sucess: true });
+});
+
 export default router;
 // module.exports = router;

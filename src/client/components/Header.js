@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 const propTypes = {
+  currentUser_id: PropTypes.string
 };
 const defaultProps = {
+  currentUser_id: ''
 };
 
 class Header extends Component {
@@ -34,7 +36,7 @@ class Header extends Component {
                   <li className="tab disabled"><Link to="#test2">메뉴별 맛집</Link></li>
                   <li className="tab disabled"><Link to="#test3">끼니 결정</Link></li>
                   <li className="tab disabled"><Link to="#test4">회차별 맛집</Link></li>
-                  <li className="tab disabled"><Link to="#test4">My page</Link></li>
+                  <li className="tab disabled"><Link to={this.props.currentUser_id.length>0?"/mypage/"+this.props.currentUser_id:"/mypage"}>My page</Link></li>
                 </ul>
               </div>
             </nav>

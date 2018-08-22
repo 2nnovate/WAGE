@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { LowerMenuBar, Header, Auth } from '../components';
+import { Auth } from '../components';
 import { connect } from 'react-redux';
 import { loginRequest } from '../actions/authentication';
 
@@ -46,7 +46,6 @@ class Login extends Component {
           media-320 이하(스마트폰)
           {loginButton}
           <div>로그인</div>
-          <LowerMenuBar />
         </div>
       )
       const smartPhoneView2 = (
@@ -54,7 +53,6 @@ class Login extends Component {
           media-321 이상 media-767 이하(스마트폰)
           <div>로그인</div>
           {loginButton}
-          <LowerMenuBar />
         </div>
       )
       const tabletView = (
@@ -73,7 +71,6 @@ class Login extends Component {
       )
         return(
             <div className="section">
-              <Header />
               {smartPhoneView1}
               {smartPhoneView2}
               {tabletView}

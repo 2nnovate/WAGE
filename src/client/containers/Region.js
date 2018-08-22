@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { LowerMenuBar, StoreList, Header } from '../components';
+import { connect } from 'react-redux';
+import { getStatusRequest } from '../actions/authentication';
 
 const propTypes = {
 };
@@ -336,7 +338,7 @@ class Region extends Component {
             위치변경
           </div>
         </div>
-      )
+      );
       // 주소 검색창
       const changeAdressView = (
         <div className="search-screen white-text">
@@ -356,7 +358,7 @@ class Region extends Component {
                 </div>
             </div>
         </div>
-      )
+      );
       // 맛집 범주 선택
       const categoriesSelect = (
         <div className="list-filter-tv-show">
@@ -368,28 +370,25 @@ class Region extends Component {
           </select>
           <div>맛집</div>
         </div>
-      )
+      );
       const header =(
         <div className="header media-768 media-1024">
           <h1>뭐 할끼니?</h1>
         </div>
-      )
+      );
         return(
           <div className="section">
             {this.state.searchAddrState? changeAdressView:undefined}
-            <Header />
             {categoriesSelect}
             {nowLocationBar}
             {map}
             <div className="media-320">
               media-320 이하(스마트폰)
               <StoreList data={this.state.storeLists}/>
-              <LowerMenuBar />
             </div>
             <div className="media-768">
               media-321 이상 media-767 이하(스마트폰)
               <StoreList data={this.state.storeLists}/>
-              <LowerMenuBar />
             </div>
             <div className="media-1024">
               media-768 이상 media-1024 이하(태블릿)
@@ -407,4 +406,20 @@ class Region extends Component {
 Region.propTypes = propTypes;
 Region.defaultProps = defaultProps;
 
-export default Region;
+const mapStateToProps = (state) => {
+    return {
+      sessionValidity: state.authentication.status.valid,
+      currentUser_id: state.authentication.status.currentUser_id
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getStatusRequest: () => {
+            return dispatch(getStatusRequest());
+        }
+    };
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Region);

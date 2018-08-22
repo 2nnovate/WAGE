@@ -3,6 +3,9 @@ body .section{
   padding-bottom: 65px;
   color: rgba(1, 1, 1, .9);
 }
+.header-menu-bar{
+  padding: 0 2.5%;
+}
 
 h1 {
   text-align: center;
@@ -163,6 +166,9 @@ h1 {
 .header .nav-extended{
   padding-top: 1rem;
   background-color: #26a69a;
+}
+#nav-mobile{
+  margin-right: 24px;
 }
 /*로그인, 회원가입*/
 .auth-container{

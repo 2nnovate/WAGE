@@ -5,7 +5,11 @@ import {
   AUTH_LOGIN_FAILURE,
   AUTH_REGISTER,
   AUTH_REGISTER_SUCCESS,
-  AUTH_REGISTER_FAILURE
+  AUTH_REGISTER_FAILURE,
+  AUTH_GET_STATUS,
+  AUTH_GET_STATUS_SUCCESS,
+  AUTH_GET_STATUS_FAILURE,
+  AUTH_LOGOUT
 } from './ActionTypes';
 
 /* LOGIN */
@@ -56,85 +60,37 @@ export function registerRequest(email, password) {
     };
 }
 
-// /* GET STATUS */
-// export function getStatusRequest() {
-//     return (dispatch) => {
-//         // inform Get Status API is starting
-//         dispatch({
-//           type: AUTH_GET_STATUS
-//         });
-//
-//         return axios.get('/api/account/getInfo')
-//         .then((response) => {
-//             dispatch({
-//               type: AUTH_GET_STATUS_SUCCESS,
-//               username: response.data.info.username,
-//               user_id: response.data.info._id,
-//               region: response.data.info.region,
-//               account: response.data.info.account
-//             });
-//         }).catch((error) => {
-//             dispatch({
-//               type: AUTH_GET_STATUS_FAILURE
-//             });
-//         });
-//     };
-// }
-//
-// /* Logout */
-// export function logoutRequest() {
-//     return (dispatch) => {
-//         return axios.post('/api/account/logout')
-//         .then((response) => {
-//             dispatch({
-//               type: AUTH_LOGOUT
-//             });
-//         });
-//     };
-// }
-//
-// /* edit region */
-// export function editRegionRequest(_id, region) {
-//   return (dispatch) => {
-//     dispatch({
-//       type: AUTH_EDIT_REGION
-//     });
-//
-//     let url = '/api/account/editregion/'+_id;
-//
-//     return axios.put(url, { region })
-//     .then((response) => {
-//         dispatch({
-//           type: AUTH_EDIT_REGION_SUCCESS,
-//           region: response.data.account.region
-//         });
-//     }).catch((error) => {
-//         dispatch({
-//           type: AUTH_EDIT_REGION_FAILURE,
-//           error: error.response.data.code
-//         });
-//     });
-//   }
-// }
-//
-// /* order */
-// export function orderRequest(user_id, obj) {
-//   return (dispatch) => {
-//     dispatch({
-//       type: AUTH_ORDER
-//     });
-//
-//     let url = '/api/account/order/'+user_id
-//     return axios.post(url, obj)
-//     .then((response) => {
-//         dispatch({
-//           type: AUTH_ORDER_SUCCESS
-//         });
-//     }).catch((error) => {
-//         dispatch({
-//           type: AUTH_ORDER_FAILURE,
-//           error: error.response.data.code
-//         });
-//     });
-//   }
-// }
+/* GET STATUS */
+export function getStatusRequest() {
+    return (dispatch) => {
+        // inform Get Status API is starting
+        dispatch({
+          type: AUTH_GET_STATUS
+        });
+
+        return axios.get('/api/account/getInfo')
+        .then((response) => {
+            dispatch({
+              type: AUTH_GET_STATUS_SUCCESS,
+              email: response.data.info.email,
+              user_id: response.data.info._id
+            });
+        }).catch((error) => {
+            dispatch({
+              type: AUTH_GET_STATUS_FAILURE
+            });
+        });
+    };
+}
+
+/* Logout */
+export function logoutRequest() {
+    return (dispatch) => {
+        return axios.post('/api/account/logout')
+        .then((response) => {
+            dispatch({
+              type: AUTH_LOGOUT
+            });
+        });
+    };
+}

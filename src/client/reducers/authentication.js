@@ -71,6 +71,45 @@ export default function authentication(state = initialState, action) {
               error: action.error
             }
           }
+      /* CHECK THE SESSIONS */
+      case types.AUTH_GET_STATUS:
+          return {
+            ...state,
+            status: {
+              ...state.staus,
+              isLoggedIn: true
+            }
+          }
+      case types.AUTH_GET_STATUS_SUCCESS:
+          return {
+            ...state,
+            status: {
+              ...state.status,
+              valid: true,
+              currentUser: action.username,
+              currentUser_id: action.user_id
+            }
+          }
+      case types.AUTH_GET_STATUS_FAILURE:
+          return {
+            ...state,
+            status: {
+              ...state.status,
+              valid: false,
+              isLoggedIn: false
+            }
+          }
+      /* LOGOUT */
+      case types.AUTH_LOGOUT:
+          return {
+            ...state,
+            status: {
+              ...state.status,
+              isLoggedIn: false,
+              currentUser: '',
+              currentUser_id: ''
+            }
+          }
       default:
           return state;
   }
