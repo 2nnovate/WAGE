@@ -1,37 +1,38 @@
 import axios from 'axios';
 import {
+  AUTH_LOGIN,
+  AUTH_LOGIN_SUCCESS,
+  AUTH_LOGIN_FAILURE,
   AUTH_REGISTER,
   AUTH_REGISTER_SUCCESS,
   AUTH_REGISTER_FAILURE
 } from './ActionTypes';
 
-// /* LOGIN */
-// export function loginRequest(username, password) {
-//   return (dispatch) => {
-//       // Inform Login API is starting
-//       dispatch({
-//         type: AUTH_LOGIN
-//       });
-//
-//       // API REQUEST
-//       return axios.post('/api/account/signin', { username, password })
-//       .then((response) => {
-//           // SUCCEED
-//           dispatch({
-//             type: AUTH_LOGIN_SUCCESS,
-//             username,
-//             user_id: response.data.user_id,
-//             region: response.data.region,
-//             account: response.data.account
-//           });
-//       }).catch((error) => {
-//           // FAILED
-//           dispatch({
-//             type: AUTH_LOGIN_FAILURE
-//           });
-//       });
-//   };
-// }
+/* LOGIN */
+export function loginRequest(email, password) {
+  return (dispatch) => {
+      // Inform Login API is starting
+      dispatch({
+        type: AUTH_LOGIN
+      });
+
+      // API REQUEST
+      return axios.post('/api/account/signin', { email, password })
+      .then((response) => {
+          // SUCCEED
+          dispatch({
+            type: AUTH_LOGIN_SUCCESS,
+            email,
+            user_id: response.data.user_id
+          });
+      }).catch((error) => {
+          // FAILED
+          dispatch({
+            type: AUTH_LOGIN_FAILURE
+          });
+      });
+  };
+}
 
 /* REGISTER */
 export function registerRequest(email, password) {
@@ -48,7 +49,7 @@ export function registerRequest(email, password) {
             });
         }).catch((error) => {
             dispatch({
-              type: AUTH_LOGIN_FAILURE,
+              type: AUTH_REGISTER_FAILURE,
               error: error.response.data.code
             });
         });

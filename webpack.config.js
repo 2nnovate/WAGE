@@ -30,7 +30,10 @@ module.exports = {
     port: 3000,
     open: true, //dev 서버 실행시 자동 브라우저에서 오픈
     proxy: {
-      "/api": "http://localhost:8080"
+      '/api/' : {
+        target: 'http://localhost:8080',
+        changeOrigin : true
+      }
     },
     historyApiFallback: true, //리액트라우터 돔을 위해 필요한 설정
     publicPath: "/"

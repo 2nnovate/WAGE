@@ -164,6 +164,14 @@ h1 {
   padding-top: 1rem;
   background-color: #26a69a;
 }
+/*로그인, 회원가입*/
+.auth-container{
+  text-align: center;
+}
+.login-register-button{
+  display: inline-block;
+  width:50%;
+}
 
 
 /*미디어 쿼리 for 반응형 웹*/

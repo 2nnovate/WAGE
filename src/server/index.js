@@ -18,7 +18,7 @@ mongoose.connect('mongodb://localhost:27017/WAGE', { useNewUrlParser: true });
 // npm run dev 를 통해 서버 실행시 오류 발생 -> 포트번호를 명시해주지 않아서 인듯.
 
 app.use(session({
-    secret: 'BeadalMinjok1$1$234',
+    secret: 'whatAreYouGonnaEat?$1$234',
     resave: false,
     saveUninitialized: true
 }));

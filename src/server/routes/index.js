@@ -4,6 +4,5 @@ import store from './store';
 
 const router = express.Router();
 router.use('/account', account);
-router.use('/store', store);
 
 export default router;

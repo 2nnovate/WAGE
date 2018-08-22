@@ -36,10 +36,10 @@ class Auth extends Component {
     }
     //로그인실행 (Auth 컴포넌트의 state를 이용하여)
     handleLogin = () => {
-        let id = this.state.email;
+        let email = this.state.email;
         let pw = this.state.password;
         // 상위 컴포넌트(Login)에서 onLogin props로 전달받은 함수의 리턴값이 true/false 냐에 따라 password state/input 창 초기화
-        this.props.onLogin(id, pw).then(
+        this.props.onLogin(email, pw).then(
           // returnValue 는 리턴값을 의미함
             (returnValue) => {
                 if(!returnValue) {
@@ -67,7 +67,7 @@ class Auth extends Component {
     }
     render() {
       const button = (
-        <div className="login-button" onClick={this.props.mode==="login"?this.handleLogin:this.handleRegister}>
+        <div className="login-register-button waves-effect waves-light btn" onClick={this.props.mode==="login"?this.handleLogin:this.handleRegister}>
           {this.props.mode==="login"?"로그인":"회원가입"}
         </div>
       )
@@ -105,7 +105,7 @@ class Auth extends Component {
       );
       // console.log(this.state)
         return(
-            <div>
+            <div className="auth-container">
               {inputField}
               {button}
               {this.props.mode==="login"?findAccounts:undefined}
