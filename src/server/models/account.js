@@ -6,6 +6,7 @@ const Account = new Schema({
     email: String,
     password: String,
     salt: String,
+    adminPermission: Boolean,
     decision: [
       {
         date: { type: Date, default: Date.now },

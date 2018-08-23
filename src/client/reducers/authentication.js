@@ -12,7 +12,8 @@ const initialState = {
         valid: false, //세션이 유효한지 체크, 유효하면 true, 만료/비정상 false
         isLoggedIn: false,
         currentUser: '',
-        currentUser_id: ''
+        currentUser_id: '',
+        admin: false
     }
 };
 
@@ -36,7 +37,8 @@ export default function authentication(state = initialState, action) {
               ...state.status,
               isLoggedIn: true,
               currentUser: action.email,
-              currentUser_id: action.user_id
+              currentUser_id: action.user_id,
+              admin: action.admin
             }
           }
       case types.AUTH_LOGIN_FAILURE:
@@ -87,7 +89,8 @@ export default function authentication(state = initialState, action) {
               ...state.status,
               valid: true,
               currentUser: action.username,
-              currentUser_id: action.user_id
+              currentUser_id: action.user_id,
+              admin: action.admin
             }
           }
       case types.AUTH_GET_STATUS_FAILURE:
@@ -107,7 +110,8 @@ export default function authentication(state = initialState, action) {
               ...state.status,
               isLoggedIn: false,
               currentUser: '',
-              currentUser_id: ''
+              currentUser_id: '',
+              admin: false
             }
           }
       default:

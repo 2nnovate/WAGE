@@ -27,7 +27,8 @@ export function loginRequest(email, password) {
           dispatch({
             type: AUTH_LOGIN_SUCCESS,
             email,
-            user_id: response.data.user_id
+            user_id: response.data.user_id,
+            admin: response.data.admin
           });
       }).catch((error) => {
           // FAILED
@@ -72,10 +73,12 @@ export function getStatusRequest() {
         .then((response) => {
           // thnunk 함수에 문제 없음
           // console.log(response.data.info);
+          // console.log(response.data.info.admin)
             dispatch({
               type: AUTH_GET_STATUS_SUCCESS,
               email: response.data.info.email,
-              user_id: response.data.info._id
+              user_id: response.data.info._id,
+              admin: response.data.info.admin
             });
         }).catch((error) => {
             dispatch({

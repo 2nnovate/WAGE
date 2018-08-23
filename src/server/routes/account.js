@@ -51,7 +51,8 @@ router.post('/signup', (req, res) => {
           let account = new Account({
               email: req.body.email,
               password: hash,
-              salt: salt
+              salt: salt,
+              adminPermission: false
           });
           account.save( err => {
               if(err) throw err;
@@ -98,15 +99,22 @@ router.post('/signin', (req, res) => {
           // 입력한 비밀번호를 이용해 만는 해쉬와 DB에 저장된 비밀번호가 같을 경우
           if(hash === account.password){
             let session = req.session;
+            let adminPer = account.adminPermission;
+            if(adminPer === undefined){
+              adminPer = false
+            };
+            // console.log(adminPer)
             session.loginInfo = {
                 _id: account._id,
-                email: account.email
+                email: account.email,
+                admin: adminPer
             };
 
             // RETURN SUCCESS
             return res.json({
                 success: true,
-                user_id: session.loginInfo._id
+                user_id: session.loginInfo._id,
+                admin: session.loginInfo.admin
             });
           }else{
             // 다른 경우

@@ -5,12 +5,14 @@ import { Link } from 'react-router-dom';
 const propTypes = {
   currentUser_id: PropTypes.string,
   onLogout: PropTypes.func,
-  pathName: PropTypes.string
+  pathName: PropTypes.string,
+  adminPermission: PropTypes.bool
 };
 const defaultProps = {
   currentUser_id: '',
   onLogout: () => {console.log('logout function is undefined')},
-  pathName: ''
+  pathName: '',
+  adminPermission: false
 };
 
 class Header extends Component {
@@ -31,6 +33,9 @@ class Header extends Component {
           return undefined;
         }
       }
+      const adminButton = (
+        <li><Link to='/admin/add-store'>admin</Link></li>
+      )
         return(
           <div className="header">
             <nav className="nav-extended">
@@ -41,6 +46,7 @@ class Header extends Component {
                   <li><Link to="/login">sign-in</Link></li>
                   <li><Link to="/register">sign-up</Link></li>
                   <li><Link to='#' onClick={this.props.onLogout}>logout</Link></li>
+                  {this.props.adminPermission?adminButton:undefined}
                 </ul>
               </div>
               <div className="nav-content">
@@ -59,6 +65,7 @@ class Header extends Component {
               <li><a href="/login">sign-in</a></li>
               <li><a href="/register">sign-up</a></li>
               <li><Link to='#' onClick={this.props.onLogout}>logout</Link></li>
+              {this.props.adminPermission?adminButton:undefined}
             </ul>
           </div>
         );

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { App, Region, Login, Register, MyPage } from './containers'
+import { App, Region, Login, Register, MyPage, AddStore } from './containers'
 import './style.css';
 
 import { Provider } from 'react-redux';
@@ -23,6 +23,7 @@ ReactDOM.render(
           <Route path='/mypage/:user_id' component={MyPage}/>
           <Route path='/mypage' component={MyPage}/>
         </Switch>
+        <Route path='/admin/add-store' component={AddStore}/>
       </div>
     </Router>
   </Provider>

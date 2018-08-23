@@ -23,8 +23,10 @@ class Login extends Component {
                     };
 
                     document.cookie = 'key=' + btoa(JSON.stringify(loginData));
-
-                    M.toast({html:'Welcome, ' + email + '!'});
+                    let atIndex = email.indexOf('@');
+                    let emailCopy = email;
+                    let id = emailCopy.slice(0, atIndex);
+                    M.toast({html:'환영합니다, ' + id + '님!'});
                     this.props.history.push('/mypage/'+this.props.currentUser_id);
                     // 리턴 값에 따라 인풋창 비우기(auth 컴포넌트의 state 초기화)
                     return true;

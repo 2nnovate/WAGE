@@ -45,6 +45,7 @@ class App extends Component {
     render() {
       // console.log(this.props.isLoggedIn);
       // console.log(this.props.location.pathname);
+      // console.log(this.props.admin)
       const smartPhoneMenu = (
         <div className="media-320 media-768">
           <LowerMenuBar currentUser_id={this.props.isLoggedIn?this.props.currentUser_id:undefined}
@@ -55,7 +56,8 @@ class App extends Component {
         <div className="media-1024 media-1025">
           <Header currentUser_id={this.props.isLoggedIn?this.props.currentUser_id:undefined}
                   onLogout={this.handleLogout}
-                  pathName={this.props.location.pathname}/>
+                  pathName={this.props.location.pathname}
+                  adminPermission={this.props.admin}/>
         </div>
       )
       return(
@@ -73,7 +75,8 @@ App.defaultProps = defaultProps;
 const mapStateToProps = (state) => {
     return {
       isLoggedIn: state.authentication.status.isLoggedIn,
-      currentUser_id: state.authentication.status.currentUser_id
+      currentUser_id: state.authentication.status.currentUser_id,
+      admin: state.authentication.status.admin
     };
 };
 

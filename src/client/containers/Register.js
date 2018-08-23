@@ -16,7 +16,7 @@ class Register extends Component {
       return this.props.registerRequest(email, pw).then(
           () => {
               if(this.props.registerStatus === "SUCCESS") {
-                  M.toast({html:'Success! Please log in'});
+                  M.toast({html:'회원가입에 성공하였습니다! 로그인 해주세요.'});
                   this.props.history.push('/login');
                   return true;
               } else {
