@@ -21,7 +21,7 @@ class App extends Component {
           }else{
             let $toastContent = $('<span style="color: #FFB4BA">세션이 유효하지 않습니다. 다시 로그인 해주세요.</span>');
             M.toast({html:$toastContent});
-            return this.props.history.push('/login');
+            // return this.props.history.push('/login');
           }
         }
       );

@@ -275,6 +275,67 @@ h1 {
   color: #9e9e9e;
   padding: 0 .75rem;
 }
+/*가게 등록 중 메뉴 정보 수정 및 추가*/
+.current-menu-lists{
+  margin-top: .5rem;
+  padding: 0 .5rem;
+}
+.create-new-menu-button{
+  margin: .4rem 1rem 1rem 0;
+  color: #5fbebb;
+  background: #eeeeee;
+  display: inline-block;
+  padding: 0 1rem;
+  border-radius: .7rem;
+}
+.create-new-menu-button i{
+  position: relative;
+  top: .2rem;
+}
+.create-new-menu-button div{
+  position: relative;
+  top: -0.3rem;
+  display: inline-block;
+  margin-left:.5rem;
+}
+.edit-menu-view{
+  padding: 1rem 1.5rem 3.5rem 1.5rem;
+  background-color: #eeeeee;
+  border-radius: .7rem;
+  position: relative;
+  margin-bottom: 1rem;
+}
+.edit-menu-done-button{
+  background-color: #5fbebb;
+  color: white;
+  display: block;
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: .3rem 1rem;
+  border-radius: .7rem;
+  margin-top: .5rem;
+  position: absolute;
+  bottom: .9rem;
+  right: 1.5rem;
+}
+.edit-menu-delete-button{
+  background-color: #5fbebb;
+  color: white;
+  display: block;
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: .3rem 1rem;
+  border-radius: .7rem;
+  margin-top: .5rem;
+  position: absolute;
+  bottom: .9rem;
+  right: 6.5rem;
+}
+.store-form .title{
+  font-size: .9rem;
+  color: #9e9e9e;
+  padding: 0 .75rem;
+}
 
 /*미디어 쿼리 for 반응형 웹*/
 @media all and (max-width: 369px) {

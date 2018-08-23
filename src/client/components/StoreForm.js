@@ -150,6 +150,50 @@ class StoreForm extends Component {
       }
     }
 
+    // 메뉴 추가 버튼을 누르면 tvShow 배열에 빈 객체를 추가하는 메소드
+    createNewMenu = () => {
+      this.state.menus.push({
+        name: '',
+        time: ''
+      });
+      this.forceUpdate();
+    }
+    // 메뉴를 편집하는 화면 (div의 id 값으로 요소를 보이게 한다 / 기본값은 감춰둠)
+    turnOnMenuView = (e) => {
+      let nthId = $(e.target).parents().attr('id');
+      let nth = nthId.slice(0, 1);
+      $(`div#${nth}th-menu`).css('display', 'block');
+    }
+    // 편집 화면에서 input 태그에 onChange 이벤트 등록 (div id로 menu 배열의 n 번째 원소를 수정)
+    handleChangeMenu = (e) => {
+      let nthId = $(e.target).parents('div.edit-menu-view').attr('id');
+      let nth = nthId.slice(0, 1);
+      let willField = e.target.name
+      this.state.menus[nth][willField] = e.target.value;
+      this.forceUpdate()
+    }
+    // 완료 버튼을 눌러 편집화면을 다시 감춘다
+    closeMenuView = (e) => {
+      $(e.target).parents('div.edit-menu-view').css('display', 'none');
+    }
+    // 삭제 버튼을 누르면 menu 배열에서 원소를 삭제한다
+    deleteMenu = (e) => {
+      // 이벤트 타깃으로부터 부모 div 의 id 값의 맨 앞글자(배열의 index)를 얻는다
+      let nthId = $(e.target).parents('div.edit-menu-view').attr('id');
+      let nth = nthId.slice(0, 1);
+      // this.state.menus 배열에서 해당 index 를 삭제한다
+      if(nth==='0' && this.state.menus.length <= 1){
+        alert('메뉴는 적어도 한 개 이상이어야 합니다.');
+        return;
+      } else {
+        let nowMenuArr = this.state.menus;
+        nowMenuArr.splice(nth, 1);
+        this.setState({
+          menus: nowMenuArr
+        });
+      }
+    }
+
     componentDidMount(){
       $(document).ready(function() {
         // materializecss input 태그 초기화 (맨처음 렌더링 된 이후)
@@ -183,6 +227,34 @@ class StoreForm extends Component {
         return arr.map((item, i) => {
           return (
             <div className="create-new-option-button" id={i+'onButton'} onClick={this.turnOnTvShowView}
+              key={i}>
+              <i className="material-icons">add_circle</i>
+              <div>{item.name===""?"클릭해서 편집":item.name}</div>
+            </div>
+          )
+        })
+      }
+      const editMenuView = (arr) => {
+       return arr.map((item, i)=>{
+         return (
+           <div className="edit-menu-view" id={i+"th-menu"} key={i} style={invisible}>
+             <input name="name" type="text" placeholder="메뉴명" value={item.name} onChange={this.handleChangeMenu}/>
+             <input name="price" type="number" placeholder="가격"
+               value={item.time} onChange={this.handleChangeMenu}/>
+             <div className="edit-menu-delete-button" onClick={this.deleteMenu}>
+               삭제
+             </div>
+             <div className="edit-menu-done-button" onClick={this.closeMenuView}>
+               완료
+             </div>
+           </div>
+         )
+       })
+     }
+     const editMenuButtons = (arr) => {
+        return arr.map((item, i) => {
+          return (
+            <div className="create-new-menu-button" id={i+'onButton'} onClick={this.turnOnMenuView}
               key={i}>
               <i className="material-icons">add_circle</i>
               <div>{item.name===""?"클릭해서 편집":item.name}</div>
@@ -289,6 +361,17 @@ class StoreForm extends Component {
           </div>
           <div>
             {editTvShowView(this.state.tvShow)}
+          </div>
+          <div className="title">메뉴 정보</div>
+          <div className="current-menu-lists">
+            {editMenuButtons(this.state.menus)}
+            <div className="create-new-menu-button" id="create-new-menu" onClick={this.createNewMenu}>
+              <i className="material-icons">add_circle</i>
+              <div>메뉴 정보 추가</div>
+            </div>
+          </div>
+          <div>
+            {editMenuView(this.state.menus)}
           </div>
         </div>
       )
