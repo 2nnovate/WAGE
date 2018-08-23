@@ -345,7 +345,7 @@ class Region extends Component {
         <div className="now-location-address-bar">
           <div>현재 위치 :</div>
           <div>{this.state.nowLocation}</div>
-          <div className="waves-effect waves-light btn" onClick={this.toggleChangeLocation}>
+          <div className="waves-effect waves-light btn-small" onClick={this.toggleChangeLocation}>
             <i className="material-icons left">navigation</i>
             위치변경
           </div>

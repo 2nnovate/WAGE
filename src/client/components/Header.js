@@ -36,6 +36,9 @@ class Header extends Component {
       const adminButton = (
         <li><Link to='/admin/add-store'>admin</Link></li>
       )
+      const adminButtonA = (
+        <li><a href='/admin/add-store'>admin</a></li>
+      )
         return(
           <div className="header">
             <nav className="nav-extended">
@@ -65,7 +68,7 @@ class Header extends Component {
               <li><a href="/login">sign-in</a></li>
               <li><a href="/register">sign-up</a></li>
               <li><Link to='#' onClick={this.props.onLogout}>logout</Link></li>
-              {this.props.adminPermission?adminButton:undefined}
+              {this.props.adminPermission?adminButtonA:undefined}
             </ul>
           </div>
         );
