@@ -29,7 +29,7 @@ class Login extends Component {
                     // 리턴 값에 따라 인풋창 비우기(auth 컴포넌트의 state 초기화)
                     return true;
                 } else {
-                    let $toastContent = $('<span style="color: #FFB4BA">Incorrect email or password</span>');
+                    let $toastContent = $('<span style="color: #FFB4BA">이메일 또는 비밀번호가 일치하지 않습니다</span>');
                     M.toast({html:$toastContent});
                     // 리턴 값에 따라 인풋창 비우기(auth 컴포넌트의 state 초기화)
                     return false;

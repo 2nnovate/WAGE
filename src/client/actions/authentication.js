@@ -70,6 +70,8 @@ export function getStatusRequest() {
 
         return axios.get('/api/account/getInfo')
         .then((response) => {
+          // thnunk 함수에 문제 없음
+          // console.log(response.data.info);
             dispatch({
               type: AUTH_GET_STATUS_SUCCESS,
               email: response.data.info.email,

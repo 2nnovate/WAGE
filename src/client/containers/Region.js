@@ -287,6 +287,18 @@ class Region extends Component {
   }
   // 맛집 검색 필터선택창 온체인지 이벤트
   filterSelectChange = (e) => {
+    // console.log($('option.default-option'));
+    let willListFilterArr = $(e.target).val();
+    if(willListFilterArr===null){
+      willListFilterArr = ['수요미식회'];
+    }
+    this.setState({
+      listFilter: willListFilterArr
+    });
+  }
+  // **select 태그에서 포커스가 아웃됐을때 메소드 - onBlur 라던지 onFocusout 이벤트가 동작하지 않는다
+  filterSelectOutFocus = (e) => {
+    console.log('onblur!')
     let willListFilterArr = $(e.target).val();
     if(willListFilterArr===null){
       willListFilterArr = ['수요미식회'];
@@ -376,6 +388,8 @@ class Region extends Component {
           <h1>뭐 할끼니?</h1>
         </div>
       );
+
+      // console.log(this.state.listFilter)
         return(
           <div className="section">
             {this.state.searchAddrState? changeAdressView:undefined}

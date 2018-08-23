@@ -1,10 +1,13 @@
 body .section{
   padding: 2% 2.5%;
   padding-bottom: 65px;
-  color: rgba(1, 1, 1, .9);
+  color: rgba(1, 1, 1, .8);
 }
 .header-menu-bar{
   padding: 0 2.5%;
+}
+a{
+  color: rgba(1, 1, 1, .8);
 }
 
 h1 {
@@ -24,7 +27,7 @@ h1 {
   bottom:0px;
   height:65px;
   width:100%;
-  color: #999;
+  color: rgba(1, 1, 1, .8);
   border-top: 1px solid rgba(1, 1, 1, .1);
   font-size: .9rem;
   background-color: white;
@@ -36,13 +39,19 @@ h1 {
   text-align: center;
   position: relative;
 }
-.lower-menu-bar div div{
+.lower-menu-bar div a{
   position:absolute;
   top:50%;
   left:50%;
   transform:translate(-50%, -50%);
 }
-.lower-menu-bar div div i{
+.lower-menu-bar div a:hover{
+  color:rgba(1, 1, 1, .2);
+}
+.lower-menu-bar div a.active-lower-menu{
+  color:#26a69a;
+}
+.lower-menu-bar div a i{
   display: block;
 }
 /*지도 좌측상단 주소표시*/
@@ -163,9 +172,18 @@ h1 {
   margin-left: 9rem;
 }
 /*헤더 (태블릿, pc에만 적용)*/
+.header{
+  width:100%;
+  margin-bottom: 1rem;
+}
 .header .nav-extended{
   padding-top: 1rem;
   background-color: #26a69a;
+}
+.header .nav-extended .fixed-active{
+  color: white !important;
+  border-bottom: 2px solid white;
+  background-color: rgba(1, 1, 1, .05);
 }
 #nav-mobile{
   margin-right: 24px;
@@ -240,10 +258,6 @@ h1 {
     padding-bottom: 0;
     padding-top: 0;
   }
-  .header{
-    padding: 0 10%;
-    margin-bottom: 1rem;
-  }
   #map-container {
     padding: 0 10%;
   }
@@ -272,10 +286,6 @@ h1 {
   body .section{
     padding-bottom: 0;
     padding-top: 0;
-  }
-  .header{
-    padding: 0 12%;
-    margin-bottom: 1rem;
   }
   .header .nav-extended .brand-logo{
     padding-left: 24px;
