@@ -11,7 +11,7 @@ const defaultProps = {
 class StoreForm extends Component {
     state = {
       name: '',
-      thumbnail: '',
+      thumbnail: 'https://ucarecdn.com/a8ec976d-7b08-456e-8049-2656f409f816/defaultthumbnail.jpg',
       starRate: 0,
       tell: '',
       address: '',
@@ -201,6 +201,14 @@ class StoreForm extends Component {
         // materializecss select 폼 초기화
         $('select').formSelect();
       });
+      let singleWidget = uploadcare.SingleWidget('[role=uploadcare-uploader]');
+      singleWidget.onUploadComplete((info)=>{
+        // console.log(info.cdnUrl);
+        $('div.upload-thumnail-continer>img.circle').attr('src', info.cdnUrl);
+        this.setState({
+          thumbnail: info.cdnUrl
+        });
+      });
     }
     render() {
       const invisible = {
@@ -262,8 +270,25 @@ class StoreForm extends Component {
           )
         })
       }
+      const uploadTumbnail = (
+        <div className="upload-thumnail-continer">
+          <img src={this.state.thumbnail}
+               alt="store's thumbnail"
+               className="circle responsive-img"/>
+          <input type="hidden" role="uploadcare-uploader" name="content" data-public-key="afe228afdc4b282ae7cc" data-images-only />
+        </div>
+      )
+      const registerButton = (
+        <div className="button-container">
+          <button className="btn waves-effect waves-light btn-large" type="submit" name="action">
+            등록
+            <i className="material-icons right">send</i>
+          </button>
+        </div>
+      )
       const RegisterForm = (
         <div className="store-form">
+          {uploadTumbnail}
           <div className="row">
             <div className="input-field col s12">
               <select multiple value={this.state.categories}
@@ -351,6 +376,14 @@ class StoreForm extends Component {
               <label>휴무일</label>
             </div>
           </div>
+          <div className="title">메뉴 정보</div>
+          <div className="current-menu-lists">
+            {editMenuButtons(this.state.menus)}
+            <div className="create-new-menu-button" id="create-new-menu" onClick={this.createNewMenu}>
+              <i className="material-icons">add_circle</i>
+              <div>메뉴 정보 추가</div>
+            </div>
+          </div>
           <div className="title">방송 출연 정보</div>
           <div className="current-option-lists">
             {editTvShowButtons(this.state.tvShow)}
@@ -362,14 +395,6 @@ class StoreForm extends Component {
           <div>
             {editTvShowView(this.state.tvShow)}
           </div>
-          <div className="title">메뉴 정보</div>
-          <div className="current-menu-lists">
-            {editMenuButtons(this.state.menus)}
-            <div className="create-new-menu-button" id="create-new-menu" onClick={this.createNewMenu}>
-              <i className="material-icons">add_circle</i>
-              <div>메뉴 정보 추가</div>
-            </div>
-          </div>
           <div>
             {editMenuView(this.state.menus)}
           </div>
@@ -379,6 +404,7 @@ class StoreForm extends Component {
         return(
             <div>
               {this.props.mode==='register'?RegisterForm:undefined}
+              {this.props.mode==='register'?registerButton:undefined}
             </div>
         );
     }
