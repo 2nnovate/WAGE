@@ -11,18 +11,24 @@ const Store = new Schema({
     lng: String,
     openingHours: String,
     offDay: String,
+    categories: [String],
     tvShow: [
       {
         name: String,
         time: String
       }
     ],
-    categories: [String],
+    menus: [
+      {
+        name: String,
+        price: String
+      }
+    ],
     reviews: [
       {
         author: String,
         contents: String,
-        imageUrl: String,
+        img: String,
         starRate: Number,
         date: {
             created: { type: Date, default: Date.now },
@@ -30,7 +36,8 @@ const Store = new Schema({
         },
         is_edited: { type: Boolean, default: false }
       }
-    ]
+    ],
+    savedBy: [String]
 });
 
 export default mongoose.model('store', Store);

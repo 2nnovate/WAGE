@@ -2,35 +2,27 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 const propTypes = {
-  mode: PropTypes.string
+  mode: PropTypes.string,
+  onAddStore: PropTypes.func
 };
 const defaultProps = {
-  mode: 'register'
+  mode: 'register',
+  onAddStore: () => {console.log('add store function is undefined')}
 };
 
 class StoreForm extends Component {
     state = {
       name: '',
       thumbnail: 'https://ucarecdn.com/a8ec976d-7b08-456e-8049-2656f409f816/defaultthumbnail.jpg',
-      starRate: 0,
       tell: '',
       address: '',
       lat: '',
       lng:'',
       openingHours: '',
       offDay: '',
-      tvShow: [{name: '', time: ''}],
       categories: ['한식'],
-      menus: [{name: '', price: ''}],
-      reviews: [
-        {
-          author: '',
-          contents: '',
-          img: '',
-          starRate: ''
-        }
-      ],
-      savedBy: ['']
+      tvShow: [{name: '', time: ''}],
+      menus: [{name: '', price: ''}]
     }
     handleInputChange = (e) => {
       let nextState = {};
@@ -117,6 +109,11 @@ class StoreForm extends Component {
     // 방송 출연 정보를 편집하는 화면 (div의 id 값으로 요소를 보이게 한다 / 기본값은 감춰둠)
     turnOnTvShowView = (e) => {
       let nthId = $(e.target).parents().attr('id');
+      if(nthId===undefined){
+        // nthId 는 부모의 id 값을 호출 => 글자나 아이콘을 클릭하면 부모요소의 id를 잘 찾는다
+        // div 요소 자체를 클릭할 시 부모가 아닌 자신의 id 를 담아야한다
+        nthId = $(e.target).attr('id')
+      }
       let nth = nthId.slice(0, 1);
       $(`div#${nth}th-option`).css('display', 'block');
     }
@@ -154,13 +151,18 @@ class StoreForm extends Component {
     createNewMenu = () => {
       this.state.menus.push({
         name: '',
-        time: ''
+        price: ''
       });
       this.forceUpdate();
     }
     // 메뉴를 편집하는 화면 (div의 id 값으로 요소를 보이게 한다 / 기본값은 감춰둠)
     turnOnMenuView = (e) => {
       let nthId = $(e.target).parents().attr('id');
+      if(nthId===undefined){
+        // nthId 는 부모의 id 값을 호출 => 글자나 아이콘을 클릭하면 부모요소의 id를 잘 찾는다
+        // div 요소 자체를 클릭할 시 부모가 아닌 자신의 id 를 담아야한다
+        nthId = $(e.target).attr('id')
+      }
       let nth = nthId.slice(0, 1);
       $(`div#${nth}th-menu`).css('display', 'block');
     }
@@ -192,6 +194,66 @@ class StoreForm extends Component {
           menus: nowMenuArr
         });
       }
+    }
+
+    handleRegister = () => {
+      //주어진 state의 필드값들이 비어있는지 확인하고, 비어있다면 해당필드를 채워달라고 메시지 띄울것
+      let check = this.state;
+      if(check.thumbnail === 'https://ucarecdn.com/a8ec976d-7b08-456e-8049-2656f409f816/defaultthumbnail.jpg'){
+        alert('썸네일을 등록해주세요');
+        return;
+      }
+      switch(''){
+        case check.name:
+          alert('가게명을 입력해주세요');
+          return;
+          break;
+        case check.tell:
+          alert('전화번호를 입력해주세요');
+          return;
+          break;
+        case check.address:
+          alert('주소를 입력해주세요');
+          return;
+          break;
+        case check.lat:
+          alert('주소확인 버튼을 통해 주소를 확인하세요');
+          return;
+          break;
+        case check.lng:
+          alert('주소확인 버튼을 통해 주소를 확인하세요');
+          return;
+          break;
+        case check.openingHours:
+          alert('영업시간을 입력해주세요');
+          return;
+          break;
+        case check.offDays:
+          alert('휴무일을 입력해주세요');
+          return;
+          break;
+      }
+      if(check.categories.length === 0){
+        alert('식당의 카테고리를 설정해주세요');
+        return;
+      }
+      for(var i = 0; i<check.tvShow.length; i++){
+        let item = check.tvShow[i];
+        console.log(item);
+        if(item.name === '' || item.time === ''){
+          alert('방송 출연 정보 중 비어있는 칸이 있는지 확인해 주세요');
+          return;
+        }
+      }
+      for(var i = 0; i<check.menus.length; i++){
+        let item = check.menus[i];
+        console.log(item);
+        if(item.name === '' || item.price === ''){
+          alert('메뉴 정보 중 비어있는 칸이 있는지 확인해 주세요');
+          return;
+        }
+      }
+      return this.props.onAddStore(this.state);
     }
 
     componentDidMount(){
@@ -279,7 +341,7 @@ class StoreForm extends Component {
         </div>
       )
       const registerButton = (
-        <div className="button-container">
+        <div className="button-container" onClick={this.handleRegister}>
           <button className="btn waves-effect waves-light btn-large" type="submit" name="action">
             등록
             <i className="material-icons right">send</i>
@@ -329,6 +391,7 @@ class StoreForm extends Component {
                       type="text"
                       id="address"
                       className="validate"
+                      placeholder="주소를 입력하고 '주소확인' 버튼을 눌러주세요."
                       value={this.state.address}
                       onChange={this.handleInputChange}/>
               <label htmlFor="address">주소</label>
@@ -384,6 +447,9 @@ class StoreForm extends Component {
               <div>메뉴 정보 추가</div>
             </div>
           </div>
+          <div>
+            {editMenuView(this.state.menus)}
+          </div>
           <div className="title">방송 출연 정보</div>
           <div className="current-option-lists">
             {editTvShowButtons(this.state.tvShow)}
@@ -394,9 +460,6 @@ class StoreForm extends Component {
           </div>
           <div>
             {editTvShowView(this.state.tvShow)}
-          </div>
-          <div>
-            {editMenuView(this.state.menus)}
           </div>
         </div>
       )
