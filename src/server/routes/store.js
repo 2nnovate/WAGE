@@ -25,7 +25,7 @@ const router = express.Router();
 */
 router.post('/register', (req, res) => {
     // 세션으로 부터 로그인 된 유저의 권한 확인
-    if(req.session.loginInfo.admin === false || typeof req.session.loginInfo.admin === 'undefined') {
+    if(req.session.loginInfo === undefined || typeof req.session.loginInfo.admin === 'undefined' || req.session.loginInfo.admin === false) {
         return res.status(403).json({
             error: "NO PERMISSION",
             code: 1
@@ -42,14 +42,25 @@ router.post('/register', (req, res) => {
             code: 2
         });
     }
+    // 위치 정보는 아래와 같은 객체 형식을 사용하자
+    // { type: 타입, coordinates: [ 경도, 위도 ] }
+    let willLocation = {
+      lat: Number(req.body.lat),
+      lng: Number(req.body.lng)
+    };
+    let willLocation2dsphere = {
+      type: 'Point',
+      coordinates: [Number(req.body.lng), Number(req.body.lat)]
+    };
+    // 쿼리문
+    //db.stores.find({ location: { $nearSphere: { $geometry: { type: 'Point', coordinates: [127.1420891845, 37.5924243415]},  $maxDistance: 100} } }).pretty()
 
     let store = new Store({
         name: req.body.name,
         thumbnail: req.body.thumbnail,
         tell: req.body.tell,
         address: req.body.address,
-        lat: req.body.lat,
-        lng: req.body.lng,
+        location: willLocation2dsphere,
         openingHours: req.body.openingHours,
         offDay: req.body.openingHours,
         categories: req.body.categories,

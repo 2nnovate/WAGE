@@ -71,7 +71,7 @@ class StoreForm extends Component {
     }
     categoriesChange = (e) => {
       let willListFilterArr = $(e.target).val();
-      console.log(willListFilterArr);
+      // console.log(willListFilterArr);
       if(willListFilterArr===null){
         willListFilterArr = ['한식'];
       }
@@ -239,7 +239,6 @@ class StoreForm extends Component {
       }
       for(var i = 0; i<check.tvShow.length; i++){
         let item = check.tvShow[i];
-        console.log(item);
         if(item.name === '' || item.time === ''){
           alert('방송 출연 정보 중 비어있는 칸이 있는지 확인해 주세요');
           return;
@@ -247,7 +246,6 @@ class StoreForm extends Component {
       }
       for(var i = 0; i<check.menus.length; i++){
         let item = check.menus[i];
-        console.log(item);
         if(item.name === '' || item.price === ''){
           alert('메뉴 정보 중 비어있는 칸이 있는지 확인해 주세요');
           return;
@@ -463,7 +461,7 @@ class StoreForm extends Component {
           </div>
         </div>
       )
-      console.log(this.state)
+      // console.log(this.state)
         return(
             <div>
               {this.props.mode==='register'?RegisterForm:undefined}

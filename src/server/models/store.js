@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-
 const Schema = mongoose.Schema;
 
 const Store = new Schema({
@@ -7,8 +6,10 @@ const Store = new Schema({
     thumbnail: String,
     tell: String,
     address: String,
-    lat: String,
-    lng: String,
+    location: {
+     type: { type: String },
+     coordinates: []
+    },
     openingHours: String,
     offDay: String,
     categories: [String],
@@ -39,5 +40,7 @@ const Store = new Schema({
     ],
     savedBy: [String]
 });
+Store.index({ location: "2dsphere" });
+
 
 export default mongoose.model('store', Store);
