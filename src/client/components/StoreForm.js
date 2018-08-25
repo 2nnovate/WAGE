@@ -461,7 +461,7 @@ class StoreForm extends Component {
           </div>
         </div>
       )
-      // console.log(this.state)
+      console.log(this.state)
         return(
             <div>
               {this.props.mode==='register'?RegisterForm:undefined}

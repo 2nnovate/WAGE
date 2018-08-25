@@ -62,7 +62,7 @@ router.post('/register', (req, res) => {
         address: req.body.address,
         location: willLocation2dsphere,
         openingHours: req.body.openingHours,
-        offDay: req.body.openingHours,
+        offDay: req.body.offDay,
         categories: req.body.categories,
         tvShow: req.body.tvShow,
         menus: req.body.menus,

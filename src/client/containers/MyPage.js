@@ -56,7 +56,7 @@ class MyPage extends Component {
           {dummyText}
         </div>
       )
-      console.log(this.props.admin)
+      // console.log(this.props.admin);
         return(
             <div className="section">
               {smartPhoneView1}

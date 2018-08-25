@@ -355,6 +355,9 @@ h1 {
   margin: 1rem 0;
 }
 /*관리자 페이지-가게등록으로 이동하는 버튼*/
+.go-to-add-store-button-container{
+  margin-bottom: .5rem;
+}
 .go-to-add-store-button-container>div{
   display: table;
   position: relative;
@@ -371,6 +374,7 @@ h1 {
   width: 70%;
   display: table-cell;
   vertical-align: middle;
+  padding-left: 1rem;
 }
 
 /*미디어 쿼리 for 반응형 웹*/
