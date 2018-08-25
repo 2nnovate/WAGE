@@ -419,6 +419,9 @@ h1 {
     margin: auto;
     margin-bottom: 1.4rem;
   }
+  .go-to-add-store-button-container>div>div{
+    width: 60%;
+  }
 }
 @media all and (min-width: 370px) and (max-width: 461px) {
   /*스마트폰*/
