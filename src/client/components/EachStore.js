@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 const propTypes = {
-  inform: PropTypes.object
+  inform: PropTypes.object,
+  admin: PropTypes.bool
 };
 const defaultProps = {
   inform: {
@@ -18,7 +20,8 @@ const defaultProps = {
     offDay: 'mon',
     tvShow: [{name: '수요미식회', time: '181'}],
     categories: ['한식']
-  }
+  },
+  admin: false
 };
 
 class EachStore extends Component {
@@ -60,6 +63,26 @@ class EachStore extends Component {
           break;
         }
       }
+      const adminExtraButton1 = (
+        <div className="small">
+          <div>
+            수정
+          </div>
+          <div>
+            삭제
+          </div>
+        </div>
+      );
+      const adminExtraButton2 = (
+        <div className="normal">
+          <div className="btn-floating btn waves-effect waves-light aqua">
+            <i className="material-icons">edit</i>
+          </div>
+          <div className="btn-floating btn waves-effect waves-light red">
+            <i className="material-icons">delete</i>
+          </div>
+        </div>
+      );
         return(
           <div className="store-card">
             <div>
@@ -73,6 +96,8 @@ class EachStore extends Component {
               <div>{this.props.inform.address}</div>
               <div>{this.props.inform.openingHours}</div>
             </div>
+            {this.props.admin===true?adminExtraButton1:undefined}
+            {this.props.admin===true?adminExtraButton2:undefined}
           </div>
         );
     }

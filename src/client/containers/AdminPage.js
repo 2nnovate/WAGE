@@ -42,18 +42,20 @@ class AdminPage extends Component {
       const smartPhoneMenu = (
         <div className="media-320 media-768">
           {adminHeader}
-          <StoreList data={this.state.storeLists} />
+          <StoreList data={this.state.storeLists}
+                      admin={this.props.admin}/>
         </div>
       )
       const tabletPcMenu = (
         <div className="media-1024 media-1025">
           {adminHeader}
-          <StoreList data={this.state.storeLists} />
+          <StoreList data={this.state.storeLists}
+                      admin={this.props.admin}/>
         </div>
       )
-      console.log(this.props.getListStatus);
-      console.log(this.props.lists);
-      console.log(this.state)
+      // console.log(this.props.getListStatus);
+      // console.log(this.props.lists);
+      // console.log(this.props.admin)
         return(
             <div className="section">
               {tabletPcMenu}
@@ -69,7 +71,8 @@ AdminPage.defaultProps = defaultProps;
 const mapStateToProps = (state) => {
     return {
       getListStatus: state.store.list.status,
-      lists: state.store.list.data
+      lists: state.store.list.data,
+      admin: state.authentication.status.admin
     };
 };
 

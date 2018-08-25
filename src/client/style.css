@@ -171,6 +171,20 @@ h1 {
 .store-card>div:nth-child(2){
   margin-left: 9rem;
 }
+.store-card>div.normal{
+  position: absolute;
+  right:1rem;
+  top:50%;
+  transform: translateY(-50%);
+}
+.store-card>div.small{
+  position: absolute;
+  right:1rem;
+  top:2rem;
+}
+.store-card>div.normal div{
+  margin: 0 .2rem;
+}
 /*헤더 (태블릿, pc에만 적용)*/
 .header{
   width:100%;
@@ -376,6 +390,13 @@ h1 {
   vertical-align: middle;
   padding-left: 1rem;
 }
+/*수정 삭제버튼*/
+.store-card .normal{
+  display: none;
+}
+.store-card .small{
+  display: none;
+}
 
 /*미디어 쿼리 for 반응형 웹*/
 @media all and (max-width: 369px) {
@@ -482,5 +503,17 @@ h1 {
     position: absolute;
     top: 16rem;
     right:0
+  }
+}
+@media all and (max-width: 440px) {
+  /*admin-수정 삭제버튼*/
+  .store-card .small{
+    display: block;
+  }
+}
+@media all and (min-width: 441px) {
+  /*admin-수정 삭제버튼*/
+  .store-card .normal{
+    display: block;
   }
 }
