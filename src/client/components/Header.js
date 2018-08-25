@@ -34,10 +34,10 @@ class Header extends Component {
         }
       }
       const adminButton = (
-        <li><Link to='/admin/add-store'>admin</Link></li>
+        <li><Link to='/admin'>admin</Link></li>
       )
       const adminButtonA = (
-        <li><a href='/admin/add-store'>admin</a></li>
+        <li><a href='/admin'>admin</a></li>
       )
         return(
           <div className="header">

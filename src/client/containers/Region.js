@@ -389,7 +389,7 @@ class Region extends Component {
         </div>
       );
 
-      // console.log(this.state.listFilter)
+      console.log(this.state)
         return(
           <div className="section">
             {this.state.searchAddrState? changeAdressView:undefined}

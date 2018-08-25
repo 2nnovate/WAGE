@@ -75,7 +75,32 @@ router.post('/register', (req, res) => {
         if(err) throw err;
         return res.json({ success: true });
     });
-})
+});
+/*
+  가게 목록 전체보기 (관리자 페이지)
+  ERROR CODES
+    1: NO PERMISSION
+    2: DB QUERY FAILURE
+*/
+router.get('/admin/get-all-store-lists', (req, res) => {
+  // 세션으로 부터 로그인 된 유저의 권한 확인
+  if(req.session.loginInfo === undefined || typeof req.session.loginInfo.admin === 'undefined' || req.session.loginInfo.admin === false) {
+      return res.status(403).json({
+          error: "NO PERMISSION",
+          code: 1
+      });
+  };
+
+  Store.find((err, stores) => {
+    if(err){
+      return res.status(500).send({
+          error: "DB QUERY FAILURE",
+          code: 2
+        });
+    };
+    res.json(stores);
+  });
+});
 // // 가게이름으로 검색
 // router.get('/search_store/:region/:store_name', (req, res) => {
 //   let nowRegion = req.params.region;

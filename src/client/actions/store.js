@@ -2,7 +2,10 @@ import axios from 'axios';
 import {
   STORE_REGISTER,
   STORE_REGISTER_SUCCESS,
-  STORE_REGISTER_FAILURE
+  STORE_REGISTER_FAILURE,
+  GET_ALL_STORES,
+  GET_ALL_STORES_SUCCESS,
+  GET_ALL_STORES_FAILURE
 } from './ActionTypes';
 
 /* REGISTER */
@@ -24,6 +27,28 @@ export function registerStoreRequest(storeInfromObj) {
             });
         });
     };
+}
+
+/* GET ALL STORES */
+export function getAllStores() {
+  return (dispatch) => {
+      dispatch({
+        type: GET_ALL_STORES
+      });
+      // stores
+      return axios.get('/api/store/admin/get-all-store-lists')
+      .then((response) => {
+          dispatch({
+            type: GET_ALL_STORES_SUCCESS,
+            data: response.data
+          });
+      }).catch((error) => {
+          dispatch({
+            type: GET_ALL_STORES_FAILURE,
+            error: error.response.data.code
+          });
+      });
+  };
 }
 
 // /* GET STORES */

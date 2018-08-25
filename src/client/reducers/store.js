@@ -69,6 +69,33 @@ export default function store(state = initialState, action) {
             error: action.error
           }
         };
+    case types.GET_ALL_STORES:
+        return {
+          ...state,
+          list: {
+            ...state.list,
+            status: 'WAITING',
+            error: -1
+          }
+        };
+    case types.GET_ALL_STORES_SUCCESS:
+        return {
+          ...state,
+          list: {
+            ...state.list,
+            status: 'SUCCESS',
+            data: action.data
+          }
+        };
+    case types.GET_ALL_STORES_FAILURE:
+        return {
+          ...state,
+          list: {
+            ...state.list,
+            status: 'FAILURE',
+            error: action.error
+          }
+        };
     default:
         return state;
   }
