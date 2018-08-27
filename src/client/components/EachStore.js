@@ -65,9 +65,9 @@ class EachStore extends Component {
       }
       const adminExtraButton1 = (
         <div className="small">
-          <div>
+          <Link to={"/admin/edit/"+this.props.inform._id}>
             수정
-          </div>
+          </Link>
           <div>
             삭제
           </div>
@@ -75,9 +75,9 @@ class EachStore extends Component {
       );
       const adminExtraButton2 = (
         <div className="normal">
-          <div className="btn-floating btn waves-effect waves-light aqua">
+          <Link to={"/admin/edit/"+this.props.inform._id} className="btn-floating btn waves-effect waves-light aqua">
             <i className="material-icons">edit</i>
-          </div>
+          </Link>
           <div className="btn-floating btn waves-effect waves-light red">
             <i className="material-icons">delete</i>
           </div>

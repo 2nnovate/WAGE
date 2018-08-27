@@ -96,6 +96,59 @@ export default function store(state = initialState, action) {
             error: action.error
           }
         };
+    case types.EDIT_STORE:
+        return {
+          ...state,
+          edit: {
+            ...state.edit,
+            status: 'WAITING',
+            error: -1
+          }
+        };
+    case types.EDIT_STORE_SUCCESS:
+        return {
+          ...state,
+          edit: {
+            ...state.edit,
+            status: 'SUCCESS'
+          }
+        };
+    case types.EDIT_STORE_FAILURE:
+        return {
+          ...state,
+          edit: {
+            ...state.edit,
+            status: 'FAILURE',
+            error: action.error
+          }
+        };
+    case types.GET_ONE_STORE:
+        return {
+          ...state,
+          oneStore: {
+            ...state.oneStore,
+            status: 'WAITING',
+            error: -1
+          }
+        };
+    case types.GET_ONE_STORE_SUCCESS:
+        return {
+          ...state,
+          oneStore: {
+            ...state.oneStore,
+            status: 'SUCCESS',
+            data: action.store
+          }
+        };
+    case types.GET_ONE_STORE_FAILURE:
+        return {
+          ...state,
+          oneStore: {
+            ...state.oneStore,
+            status: 'FAILURE',
+            error: action.error
+          }
+        };
     default:
         return state;
   }

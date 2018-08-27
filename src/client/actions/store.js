@@ -5,7 +5,13 @@ import {
   STORE_REGISTER_FAILURE,
   GET_ALL_STORES,
   GET_ALL_STORES_SUCCESS,
-  GET_ALL_STORES_FAILURE
+  GET_ALL_STORES_FAILURE,
+  EDIT_STORE,
+  EDIT_STORE_SUCCESS,
+  EDIT_STORE_FAILURE,
+  GET_ONE_STORE,
+  GET_ONE_STORE_SUCCESS,
+  GET_ONE_STORE_FAILURE
 } from './ActionTypes';
 
 /* REGISTER */
@@ -45,6 +51,49 @@ export function getAllStores() {
       }).catch((error) => {
           dispatch({
             type: GET_ALL_STORES_FAILURE,
+            error: error.response.data.code
+          });
+      });
+  };
+}
+
+/* EDIT */
+export function editStore(store_id, storeInfromObj) {
+    return (dispatch) => {
+        dispatch({
+          type: EDIT_STORE
+        });
+
+        return axios.put('/api/store/edit/'+store_id, storeInfromObj)
+        .then((response) => {
+            dispatch({
+              type: EDIT_STORE_SUCCESS
+            });
+        }).catch((error) => {
+            dispatch({
+              type: EDIT_STORE_FAILURE,
+              error: error.response.data.code
+            });
+        });
+    };
+}
+
+/* GET ALL STORES */
+export function getOneStore(store_id) {
+  return (dispatch) => {
+      dispatch({
+        type: GET_ONE_STORE
+      });
+      // stores
+      return axios.get('/api/store/get-one-store/'+store_id)
+      .then((response) => {
+          dispatch({
+            type: GET_ONE_STORE_SUCCESS,
+            store: response.data.store
+          });
+      }).catch((error) => {
+          dispatch({
+            type: GET_ONE_STORE_FAILURE,
             error: error.response.data.code
           });
       });

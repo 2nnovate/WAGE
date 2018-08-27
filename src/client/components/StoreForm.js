@@ -3,11 +3,15 @@ import PropTypes from 'prop-types';
 
 const propTypes = {
   mode: PropTypes.string,
-  onAddStore: PropTypes.func
+  onAddStore: PropTypes.func,
+  editData: PropTypes.object,
+  onEdit: PropTypes.func
 };
 const defaultProps = {
   mode: 'register',
-  onAddStore: () => {console.log('add store function is undefined')}
+  onAddStore: () => {console.log('add store function is undefined')},
+  editData: {},
+  onEdit: () => {console.log('edit store function is undefined')}
 };
 
 class StoreForm extends Component {
@@ -22,7 +26,11 @@ class StoreForm extends Component {
       offDay: '',
       categories: ['한식'],
       tvShow: [{name: '', time: ''}],
-      menus: [{name: '', price: ''}]
+      menus: [{name: '', price: ''}],
+      location: {
+        type: 'Point',
+        coordinates: ['lng', 'lat']
+      }
     }
     handleInputChange = (e) => {
       let nextState = {};
@@ -253,6 +261,63 @@ class StoreForm extends Component {
       }
       return this.props.onAddStore(this.state);
     }
+    handleEdit = () => {
+      //주어진 state의 필드값들이 비어있는지 확인하고, 비어있다면 해당필드를 채워달라고 메시지 띄울것
+      let check = this.state;
+      if(check.thumbnail === 'https://ucarecdn.com/a8ec976d-7b08-456e-8049-2656f409f816/defaultthumbnail.jpg'){
+        alert('썸네일을 등록해주세요');
+        return;
+      }
+      switch(''){
+        case check.name:
+          alert('가게명을 입력해주세요');
+          return;
+          break;
+        case check.tell:
+          alert('전화번호를 입력해주세요');
+          return;
+          break;
+        case check.address:
+          alert('주소를 입력해주세요');
+          return;
+          break;
+        case check.lat:
+          alert('주소확인 버튼을 통해 주소를 확인하세요');
+          return;
+          break;
+        case check.lng:
+          alert('주소확인 버튼을 통해 주소를 확인하세요');
+          return;
+          break;
+        case check.openingHours:
+          alert('영업시간을 입력해주세요');
+          return;
+          break;
+        case check.offDays:
+          alert('휴무일을 입력해주세요');
+          return;
+          break;
+      }
+      if(check.categories.length === 0){
+        alert('식당의 카테고리를 설정해주세요');
+        return;
+      }
+      for(var i = 0; i<check.tvShow.length; i++){
+        let item = check.tvShow[i];
+        if(item.name === '' || item.time === ''){
+          alert('방송 출연 정보 중 비어있는 칸이 있는지 확인해 주세요');
+          return;
+        }
+      }
+      for(var i = 0; i<check.menus.length; i++){
+        let item = check.menus[i];
+        if(item.name === '' || item.price === ''){
+          alert('메뉴 정보 중 비어있는 칸이 있는지 확인해 주세요');
+          return;
+        }
+      }
+      return this.props.onEdit(this.props.data._id, this.state);
+    }
 
     componentDidMount(){
       $(document).ready(function() {
@@ -269,6 +334,25 @@ class StoreForm extends Component {
           thumbnail: info.cdnUrl
         });
       });
+    }
+    componentWillReceiveProps(nextProps){
+      if (nextProps.data !== {}){
+        if(nextProps.data.location!==undefined){
+          this.setState({
+            name: nextProps.data.name,
+            thumbnail: nextProps.data.thumbnail,
+            tell: nextProps.data.tell,
+            address: nextProps.data.address,
+            lat: nextProps.data.location.coordinates[1],
+            lng: nextProps.data.location.coordinates[0],
+            openingHours: nextProps.data.openingHours,
+            offDay: nextProps.data.offDay,
+            categories: nextProps.data.categories,
+            tvShow: nextProps.data.tvShow,
+            menus: nextProps.data.menus
+          })
+        }
+      }
     }
     render() {
       const invisible = {
@@ -346,7 +430,15 @@ class StoreForm extends Component {
           </button>
         </div>
       )
-      const RegisterForm = (
+      const editButton = (
+        <div className="button-container" onClick={this.handleEdit}>
+          <button className="btn waves-effect waves-light btn-large" type="submit" name="action">
+            수정
+            <i className="material-icons right">send</i>
+          </button>
+        </div>
+      )
+      const form = (
         <div className="store-form">
           {uploadTumbnail}
           <div className="row">
@@ -461,11 +553,15 @@ class StoreForm extends Component {
           </div>
         </div>
       )
-      console.log(this.state)
+      console.log(this.state);
+      //eidt mode 에서 form 을 그대로 사용하면 위도/경도 값과 휴무을 못읽어온다
+
         return(
             <div>
-              {this.props.mode==='register'?RegisterForm:undefined}
+              {this.props.mode==='register'?form:undefined}
               {this.props.mode==='register'?registerButton:undefined}
+              {this.props.mode==='edit'?form:undefined}
+              {this.props.mode==='edit'?editButton:undefined}
             </div>
         );
     }

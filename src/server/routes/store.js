@@ -43,11 +43,6 @@ router.post('/register', (req, res) => {
         });
     }
     // 위치 정보는 아래와 같은 객체 형식을 사용하자
-    // { type: 타입, coordinates: [ 경도, 위도 ] }
-    let willLocation = {
-      lat: Number(req.body.lat),
-      lng: Number(req.body.lng)
-    };
     let willLocation2dsphere = {
       type: 'Point',
       coordinates: [Number(req.body.lng), Number(req.body.lat)]
@@ -101,6 +96,111 @@ router.get('/admin/get-all-store-lists', (req, res) => {
     res.json(stores);
   });
 });
+
+/*
+  가게 정보 1단계 수정
+  BODY SAMPLE: {
+    name: "SAMPLE",
+    thumbnail: "SAMPLE",
+    tell: "SAMPLE",
+    address: "SAMPLE",
+    lat: "SAMPLE",
+    lng: "SAMPLE",
+    openingHours: "SAMPLE",
+    offDay: "SAMPLE",
+    categories: ["SAMPLE"],
+    tvShow: [{...}],
+    menus: [{...}]
+  }
+  ERROR CODES
+    1: NO PERMISSION
+    2: INVALID ID
+    3: NO RESOURCE
+*/
+router.put('/edit/:store_id', (req, res) => {
+  let storeId = req.params.store_id;
+  // 세션으로 부터 로그인 된 유저의 권한 확인
+  if(req.session.loginInfo === undefined || typeof req.session.loginInfo.admin === 'undefined' || req.session.loginInfo.admin === false) {
+      return res.status(403).json({
+          error: "NO PERMISSION",
+          code: 1
+      });
+  };
+  // 들어온 id 값이 mongodb 형식인지 조회
+  if(!mongoose.Types.ObjectId.isValid(storeId)) {
+      return res.status(400).json({
+          error: "INVALID ID",
+          code: 2
+      });
+  }
+
+  Store.findById(storeId, (err, store) => {
+      if(err) throw err;
+
+      if(!store) {
+          return res.status(404).json({
+              error: "NO RESOURCE",
+              code: 3
+          });
+      }
+
+      let willLocation2dsphere = {
+        type: 'Point',
+        coordinates: [Number(req.body.lng), Number(req.body.lat)]
+      };
+
+      store.name = req.body.name,
+      store.thumbnail = req.body.thumbnail,
+      store.tell = req.body.tell,
+      store.address = req.body.address,
+      store.location = willLocation2dsphere,
+      store.openingHours = req.body.openingHours,
+      store.offDay = req.body.offDay,
+      store.categories = req.body.categories,
+      store.tvShow = req.body.tvShow,
+      store.menus = req.body.menus,
+
+      store.save((err, store) => {
+          if(err) throw err;
+          return res.json({
+              success: true,
+              store
+          });
+      });
+  })
+});
+
+/*
+  가게 정보 하나 가져오기
+  error codes:
+    1: INVALID ID
+    2: NO RESOURCE
+*/
+router.get('/get-one-store/:store_id', (req, res) => {
+  let storeId = req.params.store_id;
+  // 들어온 id 값이 mongodb 형식인지 조회
+  if(!mongoose.Types.ObjectId.isValid(storeId)) {
+      return res.status(400).json({
+          error: "INVALID ID",
+          code: 1
+      });
+  }
+
+  Store.findById(storeId, (err, store) => {
+      if(err) throw err;
+
+      if(!store) {
+          return res.status(404).json({
+              error: "NO RESOURCE",
+              code: 2
+          });
+      }
+
+      return res.json({
+          store
+      });
+  })
+})
 // // 가게이름으로 검색
 // router.get('/search_store/:region/:store_name', (req, res) => {
 //   let nowRegion = req.params.region;
@@ -218,76 +318,7 @@ router.get('/admin/get-all-store-lists', (req, res) => {
 //   });
 // });
 //
-// /*
-//   가게 정보 1단계 수정
-//   BODY SAMPLE: {
-//     thumbnail: "SAMPLE",
-//     name: "SAMPLE",
-//     categories: "SAMPLE",
-//     explain: "SAMPLE",
-//     region: ["SAMPLE", "SAMPLE"],
-//     availTime: "SAMPLE",
-//     offDay: "SAMPLE",
-//     tel: "SAMPLE",
-//     owner: "SAMPLE"
-//   }
-// */
-// router.put('/edit_one/:store_id', (req, res) => {
-//   let storeId = req.params.store_id;
-//   // 세션을 통해 로그인 여부 확인
-//   if(typeof req.session.loginInfo === 'undefined') {
-//       return res.status(403).json({
-//           error: "NOT LOGGED IN",
-//           code: 1
-//       });
-//   }
-//   // 들어온 id 값이 mongodb 형식인지 조회
-//   if(!mongoose.Types.ObjectId.isValid(storeId)) {
-//       return res.status(400).json({
-//           error: "INVALID ID",
-//           code: 2
-//       });
-//   }
-//
-//   Store.findById(storeId, (err, store) => {
-//     if(err) throw err;
-//
-//     if(!store) {
-//         return res.status(404).json({
-//             error: "NO RESOURCE",
-//             code: 3
-//         });
-//     }
-//
-//     // 검색된 메모의 작성자와 로그인된 데이터가 다른 경우 - 권한 없음
-//     if(store.owner_id != req.session.loginInfo._id) {
-//         return res.status(403).json({
-//             error: "PERMISSION FAILURE",
-//             code: 4
-//         });
-//     }
-//
-//     store.thumbnail = req.body.thumbnail;
-//     store.name = req.body.name;
-//     store.categories = req.body.categories;
-//     store.thumbnail = req.body.thumbnail;
-//     store.explain = req.body.explain;
-//     store.region = req.body.region;
-//     store.minPriceToOrder = req.body.minPriceToOrder
-//     store.inform.availTime = req.body.availTime;
-//     store.inform.offDay = req.body.offDay;
-//     store.inform.tel = req.body.tel;
-//     store.inform.owner = req.body.owner;
-//
-//     store.save((err, store) => {
-//         if(err) throw err;
-//         return res.json({
-//             success: true,
-//             store
-//         });
-//     });
-// })
-// });
+
 //
 // /*
 //   가게 정보 2단계 수정
