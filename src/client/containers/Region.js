@@ -23,7 +23,7 @@ class Region extends Component {
         searchAddrState: false, //주소 검색창 표시하는 스테이트(true면 검색창을 띄운다)
         listFilter: ['수요미식회'], //어떤 종류의 맛집을 검색할지 결정
         coverage: 1000, //현재 위치에서의 맛집검색 반경
-        toDistanceKm: '3',
+        toDistanceKm: '10',
         storeLists: []
       }
 
@@ -77,7 +77,7 @@ class Region extends Component {
     // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
     if (navigator.geolocation) {
       // geocoder를 이용해 좌표를 주소로 변경
-      geocoder.coord2Address(this.state.lng, this.state.lat, (result, status) => {
+      geocoder.coord2Address(this.state.lat===''?'33.450701':this.state.lat, this.state.lng===''?'126.570667':this.state.lng, (result, status) => {
         if (status === daum.maps.services.Status.OK) {
 
             var locPosition = new daum.maps.LatLng(this.state.lat===''?'33.450701':this.state.lat, this.state.lng===''?'126.570667':this.state.lng), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
@@ -118,18 +118,8 @@ class Region extends Component {
         // 지도 중심좌표를 접속위치로 변경합니다
         map.setCenter(locPosition);
     }
-  }
-  mapToStores = (stores) => {
-    /* 1. 기본 지도 렌더링 */
-    var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
-    var options = { //지도를 생성할 때 필요한 기본 옵션
-      center: new daum.maps.LatLng(this.state.lat===''?'33.450701':this.state.lat, this.state.lng===''?'126.570667':this.state.lng), //지도의 중심좌표.
-      level: 3 //지도의 레벨(확대, 축소 정도)
-    };
-
-    var map = new daum.maps.Map(container, options); //지도 생성 및 객체 리턴
     /*DB를 통해 검색된 가게를 지도에 마커로 표시 (지도 레벨 재설정 및 마커 이벤트 등록)*/
-    if(this.state.nowLocation!=='검색중...'&&stores !== []){
+    if(this.state.nowLocation!=='검색중...' && this.state.storeLists !== []){
       // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
       var bounds = new daum.maps.LatLngBounds();
       for(var i=0; i < this.state.storeLists.length; i++){
@@ -299,8 +289,6 @@ class Region extends Component {
     // this.mapRender(this.state.storeLists);
   }
   componentDidMount(){
-    this.nowLocationMarker();
-    //컴포넌트가 렌더링 된 이후에 state의 위/경도 값을 통해 지도위치 변경
     $(document).ready(function() {
       // materializecss input 태그 초기화 (맨처음 렌더링 된 이후)
       $('input#input_text, textarea#textarea2').characterCounter();
@@ -309,9 +297,7 @@ class Region extends Component {
     });
   }
   componentDidUpdate(){
-    // 컴포넌트 state에 현재 좌표값이 업데이트 된 이후에 다시 지도에 마커표시
     this.nowLocationMarker();
-    this.mapToStores(this.props.getStoreFromDistanceLists);
   }
     render() {
       // 지도 DOM 렌더링 요소
