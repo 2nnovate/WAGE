@@ -200,7 +200,58 @@ router.get('/get-one-store/:store_id', (req, res) => {
           store
       });
   })
-})
+});
+
+/*
+  가게 document 삭제 (by_id)
+  error codes:
+    1: INVALID ID
+    2: NO PERMISSION
+    3: NO RESOURCE
+ */
+router.delete('/delete/:store_id', (req, res) => {
+  let storeId = req.params.store_id;
+  // 들어온 id 값이 mongodb 형식인지 조회
+  if(!mongoose.Types.ObjectId.isValid(storeId)) {
+      return res.status(400).json({
+          error: "INVALID ID",
+          code: 1
+      });
+  }
+
+  // 세션으로 부터 로그인 된 유저의 권한 확인
+  if(req.session.loginInfo === undefined || typeof req.session.loginInfo.admin === 'undefined' || req.session.loginInfo.admin === false) {
+      return res.status(403).json({
+          error: "NO PERMISSION",
+          code: 2
+      });
+  };
+
+  Store.remove({ _id: storeId }, (err, output) => {
+      if(err) return res.status(500).json({ error: "database failure" });
+
+      return res.json({
+          success: true
+      });
+  })
+
+  Store.findById(storeId, (err, store) => {
+        if(err) throw err;
+
+        if(!store) {
+            return res.status(404).json({
+                error: "NO RESOURCE",
+                code: 3
+            });
+        }
+
+        Store.remove({ _id: storeId }, err => {
+            if(err) throw err;
+            res.json({ success: true });
+        });
+    });
+});
+
 // // 가게이름으로 검색
 // router.get('/search_store/:region/:store_name', (req, res) => {
 //   let nowRegion = req.params.region;

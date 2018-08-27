@@ -6,7 +6,8 @@ import App from './App';
 import AddStore from './AddStore';
 import AdminPage from './AdminPage';
 import EditStore from './EditStore';
+import RemoveStore from './RemoveStore';
 
 
 export { Region, Login, Register, MyPage, App, AddStore, AdminPage,
-EditStore };
+EditStore, RemoveStore };

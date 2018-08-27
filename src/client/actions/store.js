@@ -11,7 +11,10 @@ import {
   EDIT_STORE_FAILURE,
   GET_ONE_STORE,
   GET_ONE_STORE_SUCCESS,
-  GET_ONE_STORE_FAILURE
+  GET_ONE_STORE_FAILURE,
+  DELETE_STORE,
+  DELETE_STORE_SUCCESS,
+  DELETE_STORE_FAILURE
 } from './ActionTypes';
 
 /* REGISTER */
@@ -94,6 +97,27 @@ export function getOneStore(store_id) {
       }).catch((error) => {
           dispatch({
             type: GET_ONE_STORE_FAILURE,
+            error: error.response.data.code
+          });
+      });
+  };
+}
+
+/* REMOVE STORE */
+export function deleteStore(store_id) {
+  return (dispatch) => {
+      dispatch({
+        type: DELETE_STORE
+      });
+      // stores
+      return axios.delete('/api/store/delete/'+store_id)
+      .then((response) => {
+          dispatch({
+            type: DELETE_STORE_SUCCESS
+          });
+      }).catch((error) => {
+          dispatch({
+            type: DELETE_STORE_FAILURE,
             error: error.response.data.code
           });
       });

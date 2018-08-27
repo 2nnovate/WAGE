@@ -149,6 +149,32 @@ export default function store(state = initialState, action) {
             error: action.error
           }
         };
+    case types.DELETE_STORE:
+        return {
+          ...state,
+          remove: {
+            ...state.remove,
+            status: 'WAITING',
+            error: -1
+          }
+        };
+    case types.DELETE_STORE_SUCCESS:
+        return {
+          ...state,
+          remove: {
+            ...state.remove,
+            status: 'SUCCESS'
+          }
+        };
+    case types.DELETE_STORE_FAILURE:
+        return {
+          ...state,
+          remove: {
+            ...state.remove,
+            status: 'FAILURE',
+            error: action.error
+          }
+        };
     default:
         return state;
   }

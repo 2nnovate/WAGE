@@ -336,21 +336,23 @@ class StoreForm extends Component {
       });
     }
     componentWillReceiveProps(nextProps){
-      if (nextProps.data !== {}){
-        if(nextProps.data.location!==undefined){
-          this.setState({
-            name: nextProps.data.name,
-            thumbnail: nextProps.data.thumbnail,
-            tell: nextProps.data.tell,
-            address: nextProps.data.address,
-            lat: nextProps.data.location.coordinates[1],
-            lng: nextProps.data.location.coordinates[0],
-            openingHours: nextProps.data.openingHours,
-            offDay: nextProps.data.offDay,
-            categories: nextProps.data.categories,
-            tvShow: nextProps.data.tvShow,
-            menus: nextProps.data.menus
-          })
+      if(this.props.mode==='edit'){
+        if (nextProps.data !== {}){
+          if(nextProps.data.location!==undefined){
+            this.setState({
+              name: nextProps.data.name,
+              thumbnail: nextProps.data.thumbnail,
+              tell: nextProps.data.tell,
+              address: nextProps.data.address,
+              lat: nextProps.data.location.coordinates[1],
+              lng: nextProps.data.location.coordinates[0],
+              openingHours: nextProps.data.openingHours,
+              offDay: nextProps.data.offDay,
+              categories: nextProps.data.categories,
+              tvShow: nextProps.data.tvShow,
+              menus: nextProps.data.menus
+            })
+          }
         }
       }
     }

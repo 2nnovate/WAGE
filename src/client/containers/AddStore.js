@@ -17,7 +17,7 @@ class AddStore extends Component {
         () => {
           if(this.props.postStatus === "SUCCESS"){
             M.toast({html:'가게등록에 성공했습니다!'});
-            this.props.history.push('/');
+            this.props.history.push('/admin');
             return true;
           }else{
             let $toastContent;

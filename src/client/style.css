@@ -182,7 +182,7 @@ h1 {
   right:1rem;
   top:2rem;
 }
-.store-card>div.normal div{
+.store-card>div.normal a{
   margin: 0 .2rem;
 }
 /*헤더 (태블릿, pc에만 적용)*/
@@ -396,6 +396,19 @@ h1 {
 }
 .store-card .small{
   display: none;
+}
+/*삭제 확인*/
+.delete-confirm-view{
+  font-size: 1.5rem;
+}
+.delete-confirm-view h1{
+  margin: 2rem 0;
+}
+.delete-buttons{
+  margin: 2rem 0;
+}
+.delete-buttons div{
+  margin: 0 .5rem;
 }
 
 /*미디어 쿼리 for 반응형 웹*/

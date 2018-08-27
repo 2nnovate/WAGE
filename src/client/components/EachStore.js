@@ -68,9 +68,9 @@ class EachStore extends Component {
           <Link to={"/admin/edit/"+this.props.inform._id}>
             수정
           </Link>
-          <div>
+          <Link to={"/admin/remove/"+this.props.inform._id}>
             삭제
-          </div>
+          </Link>
         </div>
       );
       const adminExtraButton2 = (
@@ -78,9 +78,9 @@ class EachStore extends Component {
           <Link to={"/admin/edit/"+this.props.inform._id} className="btn-floating btn waves-effect waves-light aqua">
             <i className="material-icons">edit</i>
           </Link>
-          <div className="btn-floating btn waves-effect waves-light red">
+          <Link to={"/admin/remove/"+this.props.inform._id} className="btn-floating btn waves-effect waves-light red">
             <i className="material-icons">delete</i>
-          </div>
+          </Link>
         </div>
       );
         return(
