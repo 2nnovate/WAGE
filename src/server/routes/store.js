@@ -252,6 +252,58 @@ router.delete('/delete/:store_id', (req, res) => {
     });
 });
 
+/*
+  현재위치(경도, 위도)에 따른 거리별 store 조회
+  ERROR CODES:
+    1: NO RESOURCES
+*/
+router.get('/from/:now_lng/:now_lat/to/:distance', (req, res) => {
+  let nowLng = req.params.now_lng;
+  let nowLat = req.params.now_lat;
+  let distanceKM = req.params.distance;
+  console.log(distanceKM)
+  let query;
+
+  if(distanceKM === 'no-matter'){
+    query = {
+      location: {
+        $nearSphere: {
+          $geometry: {
+            type: 'Point',
+            coordinates: [nowLng, nowLat]
+          }
+        }
+      }
+    }
+  }else{
+    query = {
+      location: {
+        $nearSphere: {
+          $geometry: {
+            type: 'Point',
+            coordinates: [nowLng, nowLat]
+          },
+          $maxDistance: distanceKM*1000
+        }
+      }
+    }
+  }
+
+  Store.find(query, (err, stores) => {
+    if(err) throw err;
+
+    if(!stores){
+      return res.status(404).json({
+          error: "NO RESOURCES",
+          code: 1
+      });
+    }
+
+    return res.json(stores);
+  })
+})
+
+
 // // 가게이름으로 검색
 // router.get('/search_store/:region/:store_name', (req, res) => {
 //   let nowRegion = req.params.region;

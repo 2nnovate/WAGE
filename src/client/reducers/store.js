@@ -175,6 +175,33 @@ export default function store(state = initialState, action) {
             error: action.error
           }
         };
+    case types.GET_STORE_DISTANCE:
+        return {
+          ...state,
+          list: {
+            ...state.list,
+            status: 'WAITING',
+            error: -1
+          }
+        };
+    case types.GET_STORE_DISTANCE_SUCCESS:
+        return {
+          ...state,
+          list: {
+            ...state.list,
+            status: 'SUCCESS',
+            data: action.data
+          }
+        };
+    case types.GET_STORE_DISTANCE_FAILURE:
+        return {
+          ...state,
+          list: {
+            ...state.list,
+            status: 'FAILURE',
+            error: action.error
+          }
+        };
     default:
         return state;
   }

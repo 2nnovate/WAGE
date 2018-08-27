@@ -14,7 +14,10 @@ import {
   GET_ONE_STORE_FAILURE,
   DELETE_STORE,
   DELETE_STORE_SUCCESS,
-  DELETE_STORE_FAILURE
+  DELETE_STORE_FAILURE,
+  GET_STORE_DISTANCE,
+  GET_STORE_DISTANCE_SUCCESS,
+  GET_STORE_DISTANCE_FAILURE
 } from './ActionTypes';
 
 /* REGISTER */
@@ -118,6 +121,27 @@ export function deleteStore(store_id) {
       }).catch((error) => {
           dispatch({
             type: DELETE_STORE_FAILURE,
+            error: error.response.data.code
+          });
+      });
+  };
+}
+
+export function getStoreFromDistance(lng, lat, km){
+  return (dispatch) => {
+      dispatch({
+        type: GET_STORE_DISTANCE
+      });
+      // stores
+      return axios.get('/api/store/from/'+lng+'/'+lat+'/to/'+km)
+      .then((response) => {
+          dispatch({
+            type: GET_STORE_DISTANCE_SUCCESS,
+            data: response.data
+          });
+      }).catch((error) => {
+          dispatch({
+            type: GET_STORE_DISTANCE_FAILURE,
             error: error.response.data.code
           });
       });

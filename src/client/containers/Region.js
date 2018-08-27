@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { LowerMenuBar, StoreList, Header } from '../components';
 import { connect } from 'react-redux';
 import { getStatusRequest } from '../actions/authentication';
+import { getStoreFromDistance } from '../actions/store';
 
 const propTypes = {
 };
@@ -22,50 +23,8 @@ class Region extends Component {
         searchAddrState: false, //주소 검색창 표시하는 스테이트(true면 검색창을 띄운다)
         listFilter: ['수요미식회'], //어떤 종류의 맛집을 검색할지 결정
         coverage: 1000, //현재 위치에서의 맛집검색 반경
-        storeLists: [
-          {
-            _id:'01',
-            name: '한씨옥',
-            thumbnail: 'https://search.pstatic.net/common/?autoRotate=true&quality=95&src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxODA4MDdfMTM1%2FMDAxNTMzNjQxMDY5OTQz.bXHhO_B39nznQK3y7UNif9QpL7m3PBcr_GIkPgzLHRgg.rvu_YMAVwYrvwruepfA2CSatBI9no84435Ddp24Yp7Ig.JPEG.zephyr122059%2F20180807_132015.jpg%23800x600&type=m862_636',
-            starRate: 4.2,
-            tell: '02-305-4892',
-            address: '서울 서대문구 연희로25길 92',
-            lat: '37.5697708152',
-            lng:'126.9319833757',
-            openingHours: '11:00 - 21:00',
-            offDay: 'mon',
-            tvShow: [{name: '수요미식회', time: '181'}],
-            categories: ['한식']
-          },
-          {
-            _id:'02',
-            name: '수연산방',
-            thumbnail: 'https://search.pstatic.net/common/?autoRotate=true&quality=95&src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxNzEwMjJfODkg%2FMDAxNTA4NjYwMDQyNTY3.V93-rJWa3j_p_6Msle6OO5wPMQDjzSBI8nM3zCkfrGQg.5_I8hiRxSguYUEqe97iZxShhuuhfAN7x1slOWSqHyXwg.JPEG.nadiatour%2FDSC02562.JPG&type=m862_636',
-            starRate: 4.7,
-            tell: '02-764-1736',
-            address: '서울 성북구 성북로26길 8',
-            lat: '37.5950541538',
-            lng:'126.9948365608',
-            openingHours: '평일 11:30 - 18:00 / 주말 11:30 - 22:00',
-            offDay: 'mon',
-            tvShow: [{name: '수요미식회', time: '180'}],
-            categories: ['카페']
-          },
-          {
-            _id:'03',
-            name: '신성',
-            thumbnail: 'https://postfiles.pstatic.net/MjAxODA4MDZfNzUg/MDAxNTMzNTYwMDYzMzE4.aNydDvSzG67nYB_SxizGQ77e2X5nnPFNC_toJ4MlqVUg.2SBLm6vEQfX4Quo222EjkR_vUQuSPHcIsauql_ZiNXQg.JPEG.zephyr122059/20180806_184156.jpg?type=w966',
-            starRate: 4.1,
-            tell: '02-733-6671',
-            address: '서울 종로구 무교로 42',
-            lat: '37.5696660922',
-            lng:'126.9794936176',
-            openingHours: '11:00 - 22:00',
-            offDay: 'sun',
-            tvShow: [{name: '수요미식회', time: '181'}],
-            categories: ['일식']
-          }
-        ]
+        toDistanceKm: '3',
+        storeLists: []
       }
 
       // LISTEN ESC KEY, CLOSE IF PRESSED
@@ -79,7 +38,6 @@ class Region extends Component {
       };
       document.onkeydown = listenEscKey;
   }
-  // 현재위치를 지도 가운데에 표시하고 마커와 인포창, 행정구 표시하는 메소드
   nowLocationMarker = () => {
     /* 1. 기본 지도 렌더링 */
     var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
@@ -160,8 +118,18 @@ class Region extends Component {
         // 지도 중심좌표를 접속위치로 변경합니다
         map.setCenter(locPosition);
     }
+  }
+  mapToStores = (stores) => {
+    /* 1. 기본 지도 렌더링 */
+    var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+    var options = { //지도를 생성할 때 필요한 기본 옵션
+      center: new daum.maps.LatLng(this.state.lat===''?'33.450701':this.state.lat, this.state.lng===''?'126.570667':this.state.lng), //지도의 중심좌표.
+      level: 3 //지도의 레벨(확대, 축소 정도)
+    };
+
+    var map = new daum.maps.Map(container, options); //지도 생성 및 객체 리턴
     /*DB를 통해 검색된 가게를 지도에 마커로 표시 (지도 레벨 재설정 및 마커 이벤트 등록)*/
-    if(this.state.nowLocation!=='검색중...'){
+    if(this.state.nowLocation!=='검색중...'&&stores !== []){
       // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
       var bounds = new daum.maps.LatLngBounds();
       for(var i=0; i < this.state.storeLists.length; i++){
@@ -223,6 +191,7 @@ class Region extends Component {
         geocoder.coord2Address(longitude, latitude, (result, status) => {
           if (status === daum.maps.services.Status.OK) {
             nowAddr = result[0].address.address_name;
+            this.handleGetStoreFromDistance(longitude, latitude, this.state.toDistanceKm);
             this.setState({
               lat: latitude,
               lng: longitude,
@@ -311,13 +280,27 @@ class Region extends Component {
     this.props.history.push('/'+_id);
   }
 
+  handleGetStoreFromDistance = (lng, lat, km) => {
+    // 현재 위치가 state로 지정된 이후에 실행되야 함
+    return this.props.getStoreFromDistance(lng, lat, km).then(
+      () => {
+        this.setState({
+          storeLists: this.props.getStoreFromDistanceLists
+        });
+      }
+    );
+  }
+
   componentWillMount(){
     // 컴포넌트가 렌더링되기 이전에 브라우저의 geolocation으로 주소, 위/경도값변경
     this.changeAddress();
   }
+  componentWillReceiveProps(){
+    // this.mapRender(this.state.storeLists);
+  }
   componentDidMount(){
-    //컴포넌트가 렌더링 된 이후에 state의 위/경도 값을 통해 지도위치 변경
     this.nowLocationMarker();
+    //컴포넌트가 렌더링 된 이후에 state의 위/경도 값을 통해 지도위치 변경
     $(document).ready(function() {
       // materializecss input 태그 초기화 (맨처음 렌더링 된 이후)
       $('input#input_text, textarea#textarea2').characterCounter();
@@ -328,6 +311,7 @@ class Region extends Component {
   componentDidUpdate(){
     // 컴포넌트 state에 현재 좌표값이 업데이트 된 이후에 다시 지도에 마커표시
     this.nowLocationMarker();
+    this.mapToStores(this.props.getStoreFromDistanceLists);
   }
     render() {
       // 지도 DOM 렌더링 요소
@@ -389,7 +373,7 @@ class Region extends Component {
         </div>
       );
 
-      // console.log(this.state);
+      console.log(this.state);
         return(
           <div className="section">
             {this.state.searchAddrState? changeAdressView:undefined}
@@ -423,7 +407,9 @@ Region.defaultProps = defaultProps;
 const mapStateToProps = (state) => {
     return {
       sessionValidity: state.authentication.status.valid,
-      currentUser_id: state.authentication.status.currentUser_id
+      currentUser_id: state.authentication.status.currentUser_id,
+      getStoreFromDistanceStatus: state.store.list.status,
+      getStoreFromDistanceLists: state.store.list.data
     };
 };
 
@@ -431,6 +417,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getStatusRequest: () => {
             return dispatch(getStatusRequest());
+        },
+        getStoreFromDistance: (lng, lat, km) => {
+            return dispatch(getStoreFromDistance(lng, lat, km));
         }
     };
 };
