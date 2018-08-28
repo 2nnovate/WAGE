@@ -9,7 +9,7 @@ const propTypes = {
 };
 const defaultProps = {
 };
-
+// ** listFilter 셀릭트 박스가 바뀔 때 마다 query thunk 추가해야함
 class Region extends Component {
   constructor(props) {
       super(props);
@@ -242,8 +242,13 @@ class Region extends Component {
           <h1>뭐 할끼니?</h1>
         </div>
       );
+      const nowStateBar = (
+        <div className="now-state-bar">
+          {"- 현재 위치에서 반경 "+this.state.toDistanceKm+"km 만큼 떨어진 거리에 있는 "+this.state.listFilter+" 맛집 목록입니다."}
+        </div>
+      )
 
-      console.log(this.state);
+      // console.log(this.state);
         return(
           <div className="section">
             {this.state.searchAddrState? changeAdressView:undefined}
@@ -253,18 +258,22 @@ class Region extends Component {
                 nowLocation={this.state.nowLocation} storeLists={this.state.storeLists}/>
             <div className="media-320">
               media-320 이하(스마트폰)
+              {nowStateBar}
               <StoreList data={this.state.storeLists}/>
             </div>
             <div className="media-768">
               media-321 이상 media-767 이하(스마트폰)
+              {nowStateBar}
               <StoreList data={this.state.storeLists}/>
             </div>
             <div className="media-1024">
               media-768 이상 media-1024 이하(태블릿)
+              {nowStateBar}
               <StoreList data={this.state.storeLists}/>
             </div>
             <div className="media-1025">
               media-1025 이상(pc)
+              {nowStateBar}
               <StoreList data={this.state.storeLists}/>
             </div>
           </div>

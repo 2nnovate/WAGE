@@ -122,6 +122,11 @@ h1 {
   margin-left: .5rem;
   width: 5rem;
 }
+/*현재 위치에서 ...*/
+.now-state-bar{
+  font-weight: bold;
+  margin: .5rem 0;
+}
 /*주소 변경 창*/
 .search-screen {
     position: fixed;
