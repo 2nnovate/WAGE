@@ -442,6 +442,12 @@ h1 {
 .delete-buttons div{
   margin: 0 .5rem;
 }
+/*가게 상세정보*/
+.detailed-view>div>div.name{
+  margin: .5rem 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
 
 /*미디어 쿼리 for 반응형 웹*/
 @media all and (max-width: 369px) {
