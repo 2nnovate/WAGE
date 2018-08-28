@@ -23,7 +23,7 @@ class Region extends Component {
         searchAddrState: false, //주소 검색창 표시하는 스테이트(true면 검색창을 띄운다)
         listFilter: ['수요미식회'], //어떤 종류의 맛집을 검색할지 결정
         coverage: 1000, //현재 위치에서의 맛집검색 반경
-        toDistanceKm: '10',
+        toDistanceKm: '3',
         storeLists: []
       }
 
@@ -125,16 +125,28 @@ class Region extends Component {
       listFilter: willListFilterArr
     });
   }
+  // 맛집 검색 필터선택창 온체인지 이벤트
+  distanceSelectChange = (e) => {
+    // console.log($('option.default-option'));
+    let willDistance = $(e.target).val();
+    if(willDistance===null){
+      willDistance = '3';
+    }
+    this.setState({
+      toDistanceKm : willDistance
+    });
+    this.handleGetStoreFromDistance(this.state.lng, this.state.lat, willDistance);
+  }
   // **select 태그에서 포커스가 아웃됐을때 메소드 - onBlur 라던지 onFocusout 이벤트가 동작하지 않는다
   filterSelectOutFocus = (e) => {
-    console.log('onblur!')
+    // console.log('onblur!')
     let willListFilterArr = $(e.target).val();
     if(willListFilterArr===null){
       willListFilterArr = ['수요미식회'];
     }
     this.setState({
       listFilter: willListFilterArr
-    })
+    });
   }
 
   handleGetStoreFromDistance = (lng, lat, km) => {
@@ -166,6 +178,21 @@ class Region extends Component {
   componentDidUpdate(){
   }
     render() {
+
+      const distanceSelectOption = (
+        <div>
+          반경
+          <select value={this.state.toDistanceKm} onChange={this.distanceSelectChange}>
+            <option value="0.5">500m</option>
+            <option value="1">1km</option>
+            <option value="3">3km</option>
+            <option value="10">10km</option>
+            <option value="30">30km</option>
+            <option value="50">50km</option>
+            <option value="no-matter">무관</option>
+          </select>
+        </div>
+      )
       // 현재 위치의 주소 표시창 및 위치 변경버튼
       const nowLocationBar = (
         <div className="now-location-address-bar">
@@ -175,6 +202,7 @@ class Region extends Component {
             <i className="material-icons left">navigation</i>
             위치변경
           </div>
+          {distanceSelectOption}
         </div>
       );
       // 주소 검색창
