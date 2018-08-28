@@ -53,7 +53,7 @@ class MapComponent extends Component {
       if (navigator.geolocation) {
         // geocoder를 이용해 좌표를 주소로 변경
         var locPosition = new daum.maps.LatLng(this.state.lat===''?'33.450701':this.state.lat, this.state.lng===''?'126.570667':this.state.lng), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-            message = `<div class="info-window" style="padding:10px;font-size:.9rem;">
+            message = `<div class="info-window" style="padding:10px;font-size:.9rem;z-index:10;">
                         <div style="text-align:center;">현재 위치입니다</div>
                         <div style="color:gray;">아니라면 변경하세요</div>
                       </div>`; // 인포윈도우에 표시될 내용입니다
@@ -70,10 +70,14 @@ class MapComponent extends Component {
 
       // 지도에 마커와 인포윈도우를 표시하는 함수입니다
       function displayMarker(locPosition, message) {
+          var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+          var imageSize = new daum.maps.Size(30, 45);
+          var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize);
           // 마커를 생성합니다
           var marker = new daum.maps.Marker({
               map: map,
-              position: locPosition
+              position: locPosition,
+              image : markerImage
           });
           var iwContent = message, // 인포윈도우에 표시할 내용
               iwRemoveable = true;
@@ -87,6 +91,21 @@ class MapComponent extends Component {
           // 지도 중심좌표를 접속위치로 변경합니다
           map.setCenter(locPosition);
       }
+      // 지도에 표시할 원을 생성합니다
+      var circle = new daum.maps.Circle({
+          center : new daum.maps.LatLng(this.state.lat===''?'33.450701':this.state.lat, this.state.lng===''?'126.570667':this.state.lng),  // 원의 중심좌표 입니다
+          radius: this.props.toDistanceKm*1000, // 미터 단위의 원의 반지름입니다
+          strokeWeight: 5, // 선의 두께입니다
+          strokeColor: '#75B8FA', // 선의 색깔입니다
+          strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+          strokeStyle: 'dashed', // 선의 스타일 입니다
+          fillColor: '#CFE7FF', // 채우기 색깔입니다
+          fillOpacity: 0.5  // 채우기 불투명도 입니다
+      });
+
+      // 지도에 원을 표시합니다
+      circle.setMap(map);
+
       /*DB를 통해 검색된 가게를 지도에 마커로 표시 (지도 레벨 재설정 및 마커 이벤트 등록)*/
       if(this.state.nowLocation!=='검색중...' && this.state.storeLists.length !== 0){
         // console.log(this.state.storeLists)

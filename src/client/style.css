@@ -418,6 +418,17 @@ h1 {
 .store-card .small{
   display: none;
 }
+.store-card .small a{
+  text-align: right;
+  display: block;
+  font-weight: bold;
+}
+.store-card .small a:nth-child(1){
+  color:#2196F3;
+}
+.store-card .small a:nth-child(2){
+  color:#26a69a;
+}
 /*삭제 확인*/
 .delete-confirm-view{
   font-size: 1.5rem;

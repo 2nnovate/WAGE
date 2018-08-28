@@ -63,6 +63,27 @@ class EachStore extends Component {
           break;
         }
       }
+      const ExtraButton1 = (
+        <div className="small">
+          <Link to={"/detailed/"+this.props.inform._id}>
+            더보기
+          </Link>
+          <Link to={"/undefined/"+this.props.inform._id}>
+            시드에 추가
+          </Link>
+        </div>
+      );
+      //** 시드에 추가되면 아이콘 변경하기
+      const ExtraButton2 = (
+        <div className="normal">
+          <Link to={"/detailed/"+this.props.inform._id} className="btn-floating btn waves-effect waves-light blue">
+            <i className="material-icons">more_horiz</i>
+          </Link>
+          <Link to={"/undefined/"+this.props.inform._id} className="btn-floating btn waves-effect waves-light aqua">
+            <i className="material-icons">redo</i>
+          </Link>
+        </div>
+      );
       const adminExtraButton1 = (
         <div className="small">
           <Link to={"/admin/edit/"+this.props.inform._id}>
@@ -96,8 +117,8 @@ class EachStore extends Component {
               <div>{this.props.inform.address}</div>
               <div>{this.props.inform.openingHours}</div>
             </div>
-            {this.props.admin===true?adminExtraButton1:undefined}
-            {this.props.admin===true?adminExtraButton2:undefined}
+            {this.props.admin===true?adminExtraButton1:ExtraButton1}
+            {this.props.admin===true?adminExtraButton2:ExtraButton2}
           </div>
         );
     }

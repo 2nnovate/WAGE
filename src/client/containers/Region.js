@@ -231,7 +231,7 @@ class Region extends Component {
           <div>내주변</div>
           <select multiple value={this.state.listFilter} onChange={this.filterSelectChange}>
             <option value="수요미식회">수요미식회</option>
-            <option value="이영자 list">이영자 list (준비중)</option>
+            <option value="이영자 list" disabled>이영자 list (준비중)</option>
             <option value="삼대천왕" disabled>삼대천왕 (준비중)</option>
           </select>
           <div>맛집</div>
@@ -244,7 +244,7 @@ class Region extends Component {
       );
       const nowStateBar = (
         <div className="now-state-bar">
-          {"- 현재 위치에서 반경 "+this.state.toDistanceKm+"km 만큼 떨어진 거리에 있는 "+this.state.listFilter+" 맛집 목록입니다."}
+          {"- 현재 위치에서 반경 "+this.state.toDistanceKm+"km 거리 안에 있는 "+this.state.listFilter+" 맛집 목록입니다."}
         </div>
       )
 
@@ -255,7 +255,8 @@ class Region extends Component {
             {categoriesSelect}
             {nowLocationBar}
             <MapComponent lat={this.state.lat} lng={this.state.lng}
-                nowLocation={this.state.nowLocation} storeLists={this.state.storeLists}/>
+                nowLocation={this.state.nowLocation} storeLists={this.state.storeLists}
+                toDistanceKm={this.state.toDistanceKm}/>
             <div className="media-320">
               media-320 이하(스마트폰)
               {nowStateBar}
