@@ -11,20 +11,29 @@ const defaultProps = {
 class DetailedStore extends Component {
     state = {
       store: {
-
+        name: "test store",
+        thumbnail: "http://news.kbs.co.kr/data/news/2017/01/04/3405677_bH6.jpg",
+        reviews: [
+          {
+            img: "https://t1.daumcdn.net/thumb/R1280x0/?fname=http://t1.daumcdn.net/brunch/service/user/2fG8/image/Ri0iEbTftbOLaX0oHxinbMVIGtk.jpg"
+          },
+          {
+            img: "https://t1.daumcdn.net/thumb/R1280x0/?fname=http://t1.daumcdn.net/brunch/service/user/6xp/image/luXUXQoXP7u7xFCIMOGk0Pf9ixc.jpg"
+          }
+        ]
       }
     }
     handleGetOneStore = () => {
       return this.props.getOneStore(this.props.match.params.store_id);
     }
     componentWillMount(){
-      this.handleGetOneStore().then(
-        () => {
-          this.setState({
-            store: this.props.oneStoreData
-          });
-        }
-      )
+      // this.handleGetOneStore().then(
+      //   () => {
+      //     this.setState({
+      //       store: this.props.oneStoreData
+      //     });
+      //   }
+      // )
     }
     componentDidMount(){
       $('.carousel.carousel-slider').carousel({
@@ -45,12 +54,35 @@ class DetailedStore extends Component {
           {store.name}
         </div>
       )
+      // thumbnail 이미지와 리뷰에 있는 사진들을 합쳐 배열로 만들기
+      const imgArr = (storeInform) => {
+        let thumbnail = storeInform.thumbnail;
+        let reviews = storeInform.reviews;
+        let output = [thumbnail];
+        if(reviews.length > 0){
+          for(var i = 0; i < reviews.length; i++){
+            let reviewImg = reviews[i].img;
+            output = [...output, reviewImg]
+            if(i === reviews.length - 1){
+              return output;
+            }
+          }
+        }
+        return output;
+      }
+      const mapToSliderImage = (arr) => {
+        return arr.map((item, i) => {
+          console.log(item)
+          return (
+            <div className="carousel-item" key={i}>
+              <img src={item} />
+            </div>
+          )
+        })
+      }
       const imageSlider = (
         <div className="carousel carousel-slider">
-          <div className="carousel-item"><img src="https://lorempixel.com/800/400/food/1" /></div>
-          <div className="carousel-item"><img src="https://lorempixel.com/800/400/food/2" /></div>
-          <div className="carousel-item"><img src="https://lorempixel.com/800/400/food/3" /></div>
-          <div className="carousel-item"><img src="https://lorempixel.com/800/400/food/4" /></div>
+          {mapToSliderImage(imgArr(this.state.store))}
         </div>
       )
       const smartPhoneMenu = (
@@ -65,7 +97,8 @@ class DetailedStore extends Component {
           {header}
         </div>
       )
-      console.log(this.state)
+      // console.log(this.state.store);
+      // console.log(imgArr(this.state.store));
       return(
         <div className="section detailed-view">
           {tabletPcMenu}

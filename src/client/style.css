@@ -448,6 +448,11 @@ h1 {
   font-size: 1.5rem;
   font-weight: bold;
 }
+/*가게 상세정보 슬라이드 이미지*/
+.carousel .carousel-item>img{
+  object-fit: contain;
+  object-position: 50% 50%;
+}
 
 /*미디어 쿼리 for 반응형 웹*/
 @media all and (max-width: 369px) {
