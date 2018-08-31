@@ -77,9 +77,12 @@ class DetailedStore extends Component {
       // )
     }
     componentDidMount(){
+      // const imgHeight = $('.carousel-item img').height();
+      // console.log(imgHeight)
       $('.carousel.carousel-slider').carousel({
         fullWidth: true
       });
+      // ** 아래의 코드 스마트폰 view에서 제대로 작동하지 않는다 원인파악할 것
       setTimeout(() => {
         const imgHeight = $('.carousel-item img').height();
         console.log(imgHeight)
