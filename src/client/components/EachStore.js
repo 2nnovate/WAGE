@@ -41,26 +41,26 @@ class EachStore extends Component {
       const dayToKorean = (day) => {
         switch(day){
           case 'mon':
-          return '월요일';
-          break;
+            return '월요일';
+            break;
           case 'tue':
-          return '화요일';
-          break;
+            return '화요일';
+            break;
           case 'wed':
-          return '수요일';
-          break;
+            return '수요일';
+            break;
           case 'thur':
-          return '목요일';
-          break;
+            return '목요일';
+            break;
           case 'fri':
-          return '금요일';
-          break;
+            return '금요일';
+            break;
           case 'sat':
-          return '토요일';
-          break;
+            return '토요일';
+            break;
           case 'sun':
-          return '일요일';
-          break;
+            return '일요일';
+            break;
         }
       }
       const ExtraButton1 = (

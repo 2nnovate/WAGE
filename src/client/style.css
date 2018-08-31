@@ -453,6 +453,27 @@ h1 {
   object-fit: contain;
   object-position: 50% 50%;
 }
+/*가게 상세정보-informs*/
+.store-informs{
+  color: rgba(1, 1, 1, .5);
+}
+.store-informs>div{
+  margin: 0 0 1rem 0;
+}
+.way-buttons-container{
+  display: flex;
+  flex-direction: row;
+}
+.way-buttons-container>a{
+  flex-grow: 1;
+  flex-basis: 0;
+  text-align: center;
+  margin: 1rem 0;
+}
+.way-buttons-container>a>i{
+  font-size: 3rem;
+  margin-bottom: .6rem;
+}
 
 /*미디어 쿼리 for 반응형 웹*/
 @media all and (max-width: 369px) {
@@ -478,6 +499,9 @@ h1 {
   .go-to-add-store-button-container>div>div{
     width: 60%;
   }
+  .way-buttons-container>a>i{
+    font-size: 2rem;
+  }
 }
 @media all and (min-width: 370px) and (max-width: 461px) {
   /*스마트폰*/
@@ -495,6 +519,9 @@ h1 {
     margin: auto;
     margin-bottom: 1.4rem;
   }
+  .way-buttons-container>a>i{
+    font-size: 2rem;
+  }
 }
 @media all and (min-width: 462px) and (max-width: 767px) {
   /*스마트폰*/
@@ -505,6 +532,9 @@ h1 {
     width:99%;
     margin: auto;
     margin-bottom: 1.4rem;
+  }
+  .way-buttons-container>a>i{
+    font-size: 2rem;
   }
 }
 @media all and (min-width: 768px) and (max-width: 1024px) {
