@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getOneStore } from '../actions/store';
-import { WayButtons } from '../components';
+import { WayButtons, MapInStoreView } from '../components';
+import { Link } from 'react-router-dom';
 
 const propTypes = {
 };
@@ -207,14 +208,25 @@ class DetailedStore extends Component {
           </div>
         </div>
       )
+      const menuToComponent = (menus) => {
+        return menus.map((item, i) => {
+          return (
+            <div key={i}>
+              <div>{item.name}</div>
+              <div>{item.price+'원'}</div>
+            </div>
+          )
+        })
+      }
       const smartPhoneMenu = (
         <div className="media-320 media-768">
           {imageSlider}
           {header}
           {informs}
-          <WayButtons locName={this.state.store.name}
-                      locLat={this.state.store.location.coordinates[1]}
-                      locLng={this.state.store.location.coordinates[0]}/>
+          <div className="store-menu-container">
+            <div>메뉴 정보</div>
+            {menuToComponent(this.state.store.menus)}
+          </div>
         </div>
       )
       const tabletPcMenu = (
@@ -222,9 +234,30 @@ class DetailedStore extends Component {
           {imageSlider}
           {header}
           {informs}
+          <div className="store-menu-container">
+            <div>메뉴</div>
+            {menuToComponent(this.state.store.menus)}
+          </div>
+        </div>
+      )
+      const mapAndButtons = (
+        <div>
+          <MapInStoreView locName={this.state.store.name}
+                          locLat={this.state.store.location.coordinates[1]}
+                          locLng={this.state.store.location.coordinates[0]}/>
           <WayButtons locName={this.state.store.name}
                       locLat={this.state.store.location.coordinates[1]}
                       locLng={this.state.store.location.coordinates[0]}/>
+        </div>
+      )
+      const goToSeedButton = (
+        <div className="go-to-seed-button-in-detailed-view">
+          <div className="btn-floating btn-large waves-effect waves-light aqua">
+            <i className="material-icons">add</i>
+          </div>
+          <div>
+            Seed에 추가
+          </div>
         </div>
       )
       // console.log(this.state.store);
@@ -233,6 +266,8 @@ class DetailedStore extends Component {
         <div className="section detailed-view">
           {tabletPcMenu}
           {smartPhoneMenu}
+          {mapAndButtons}
+          {goToSeedButton}
         </div>
       );
     }
