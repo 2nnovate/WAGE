@@ -509,8 +509,11 @@ h1 {
   margin-bottom: .5rem;
 }
 .go-to-seed-button-in-detailed-view>div:nth-child(2){
-  color: #26a69a;
+  color: white;
   font-weight: bold;
+  background-color: #26a69a;
+  padding: .2rem .5rem;
+  border-radius: .4rem;
 }
 
 /*미디어 쿼리 for 반응형 웹*/

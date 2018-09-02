@@ -238,7 +238,7 @@ class DetailedStore extends Component {
           {header}
           {informs}
           <div className="store-menu-container">
-            <div>메뉴</div>
+            <div>메뉴 정보</div>
             {menuToComponent(this.state.store.menus)}
           </div>
         </div>
